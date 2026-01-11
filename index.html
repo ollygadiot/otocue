@@ -1351,7 +1351,8 @@
         scrollAnimationId: null,
         autoTimeout: null,
         currentAudio: null,
-        currentAudioBtn: null
+        currentAudioBtn: null,
+        wakeLock: null
       };
 
       // ========== DOM ELEMENTS ==========
@@ -1419,6 +1420,34 @@
         });
         document.getElementById('showGestures').checked = show;
       }
+
+      // ========== SCREEN WAKE LOCK ==========
+      async function requestWakeLock() {
+        if (!('wakeLock' in navigator)) return;
+
+        try {
+          state.wakeLock = await navigator.wakeLock.request('screen');
+          state.wakeLock.addEventListener('release', () => {
+            state.wakeLock = null;
+          });
+        } catch (e) {
+          console.warn('Wake lock request failed:', e.message);
+        }
+      }
+
+      async function releaseWakeLock() {
+        if (state.wakeLock) {
+          await state.wakeLock.release();
+          state.wakeLock = null;
+        }
+      }
+
+      // Re-acquire wake lock when page becomes visible again
+      document.addEventListener('visibilitychange', async () => {
+        if (document.visibilityState === 'visible' && state.isPlaying) {
+          await requestWakeLock();
+        }
+      });
 
       // ========== NOTATION PARSER ==========
       function parseNotation(text) {
@@ -1604,6 +1633,7 @@
         state.isPlaying = true;
         elements.playPause.classList.add('active');
         document.body.classList.add('playing');
+        requestWakeLock();
 
         let lastTime = performance.now();
 
@@ -1646,6 +1676,7 @@
         state.isPlaying = false;
         elements.playPause.classList.remove('active');
         document.body.classList.remove('playing');
+        releaseWakeLock();
 
         if (state.scrollAnimationId) {
           cancelAnimationFrame(state.scrollAnimationId);
@@ -1675,6 +1706,7 @@
         state.isPlaying = true;
         elements.playPause.classList.add('active');
         document.body.classList.add('playing');
+        requestWakeLock();
 
         function advanceNext() {
           if (!state.isPlaying || !state.isAutoMode) return;
