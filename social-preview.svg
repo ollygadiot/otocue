@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640">
+  <rect width="1280" height="640" fill="#0a0a0a"/>
+
+  <!-- Logo -->
+  <g transform="translate(540, 200)">
+    <circle cx="100" cy="100" r="88" fill="#111" stroke="#60d080" stroke-width="6"/>
+    <line x1="55" y1="75" x2="145" y2="75" stroke="#555" stroke-width="8" stroke-linecap="round"/>
+    <line x1="55" y1="100" x2="145" y2="100" stroke="#60d080" stroke-width="10" stroke-linecap="round"/>
+    <line x1="55" y1="125" x2="120" y2="125" stroke="#555" stroke-width="8" stroke-linecap="round"/>
+  </g>
+
+  <!-- App name -->
+  <text x="640" y="480" text-anchor="middle" font-family="Helvetica Neue, Helvetica, sans-serif" font-size="72" font-weight="400" fill="#ffffff">Otocue</text>
+
+  <!-- Tagline -->
+  <text x="640" y="540" text-anchor="middle" font-family="Helvetica Neue, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#666666">Stop reading scripts. Start performing them.</text>
+</svg>

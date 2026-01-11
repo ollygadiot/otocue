@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+  <!-- Countdown 3 - three fingers raised -->
+  <g>
+    <!-- Palm base -->
+    <path d="M22 44 L22 56 Q22 62 30 62 L42 62 Q50 62 50 56 L50 44 Q50 38 42 38 L30 38 Q22 38 22 44 Z"
+          fill="#FCEA2B" stroke="#3F3F3F" stroke-width="2"/>
+
+    <!-- Index finger -->
+    <path d="M28 38 L24 14" stroke="#FCEA2B" stroke-width="6" stroke-linecap="round"/>
+    <path d="M28 38 L24 14" stroke="#3F3F3F" stroke-width="2" stroke-linecap="round"/>
+    <ellipse cx="23" cy="13" rx="3.5" ry="2.5" fill="#FCEA2B" stroke="#3F3F3F" stroke-width="2"/>
+
+    <!-- Middle finger -->
+    <path d="M36 38 L36 10" stroke="#FCEA2B" stroke-width="6" stroke-linecap="round"/>
+    <path d="M36 38 L36 10" stroke="#3F3F3F" stroke-width="2" stroke-linecap="round"/>
+    <ellipse cx="36" cy="9" rx="3.5" ry="2.5" fill="#FCEA2B" stroke="#3F3F3F" stroke-width="2"/>
+
+    <!-- Ring finger -->
+    <path d="M44 38 L48 14" stroke="#FCEA2B" stroke-width="6" stroke-linecap="round"/>
+    <path d="M44 38 L48 14" stroke="#3F3F3F" stroke-width="2" stroke-linecap="round"/>
+    <ellipse cx="49" cy="13" rx="3.5" ry="2.5" fill="#FCEA2B" stroke="#3F3F3F" stroke-width="2"/>
+
+    <!-- Number indicator -->
+    <circle cx="60" cy="14" r="9" fill="#92D3F5" stroke="#3F3F3F" stroke-width="2"/>
+    <text x="60" y="18" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#3F3F3F">3</text>
+  </g>
+</svg>

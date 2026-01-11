@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+  <!-- Arms Crossed - defensive, closed (avoid this!) -->
+  <!-- Red tint to indicate "don't do this" -->
+  <g>
+    <!-- Body/torso outline -->
+    <ellipse cx="36" cy="52" rx="12" ry="16" fill="#FCEA2B" stroke="#3F3F3F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Head -->
+    <circle cx="36" cy="24" r="10" fill="#FCEA2B" stroke="#3F3F3F" stroke-width="2"/>
+
+    <!-- Crossed arms - right arm on top -->
+    <path d="M24 48 L48 40" stroke="#FCEA2B" stroke-width="10" stroke-linecap="round"/>
+    <path d="M48 48 L24 40" stroke="#FCEA2B" stroke-width="10" stroke-linecap="round"/>
+    <path d="M24 48 L48 40" stroke="#3F3F3F" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <path d="M48 48 L24 40" stroke="#3F3F3F" stroke-width="2" stroke-linecap="round" fill="none"/>
+
+    <!-- Hands tucked -->
+    <circle cx="22" cy="41" r="4" fill="#FCEA2B" stroke="#3F3F3F" stroke-width="2"/>
+    <circle cx="50" cy="41" r="4" fill="#FCEA2B" stroke="#3F3F3F" stroke-width="2"/>
+
+    <!-- Closed/skeptical face -->
+    <circle cx="32" cy="22" r="1.5" fill="#3F3F3F"/>
+    <circle cx="40" cy="22" r="1.5" fill="#3F3F3F"/>
+    <line x1="33" y1="29" x2="39" y2="29" stroke="#3F3F3F" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- Red "X" overlay to indicate avoid -->
+    <line x1="8" y1="8" x2="64" y2="64" stroke="#EA5A47" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+    <line x1="64" y1="8" x2="8" y2="64" stroke="#EA5A47" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+  </g>
+</svg>

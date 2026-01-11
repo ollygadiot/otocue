@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+  <!-- Countdown 1 - one finger raised -->
+  <g>
+    <!-- Palm base -->
+    <path d="M24 36 L24 56 Q24 62 32 62 L40 62 Q48 62 48 56 L48 36 Q48 30 40 30 L32 30 Q24 30 24 36 Z"
+          fill="#FCEA2B" stroke="#3F3F3F" stroke-width="2"/>
+
+    <!-- Index finger raised -->
+    <path d="M36 30 L36 10" stroke="#FCEA2B" stroke-width="8" stroke-linecap="round"/>
+    <path d="M36 30 L36 10" stroke="#3F3F3F" stroke-width="2" stroke-linecap="round"/>
+    <ellipse cx="36" cy="9" rx="4" ry="3" fill="#FCEA2B" stroke="#3F3F3F" stroke-width="2"/>
+
+    <!-- Other fingers curled (indicated by curves on palm) -->
+    <path d="M28 38 Q26 42 28 46" stroke="#E0B974" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M44 38 Q46 42 44 46" stroke="#E0B974" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+    <!-- Number indicator -->
+    <circle cx="58" cy="14" r="10" fill="#92D3F5" stroke="#3F3F3F" stroke-width="2"/>
+    <text x="58" y="19" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#3F3F3F">1</text>
+  </g>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+  <!-- Arms at Sides - neutral, resting position -->
+  <g>
+    <!-- Body/torso outline -->
+    <ellipse cx="36" cy="52" rx="12" ry="16" fill="#FCEA2B" stroke="#3F3F3F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Head -->
+    <circle cx="36" cy="24" r="10" fill="#FCEA2B" stroke="#3F3F3F" stroke-width="2"/>
+
+    <!-- Left arm down at side -->
+    <path d="M26 44 L22 62" stroke="#FCEA2B" stroke-width="8" stroke-linecap="round"/>
+    <path d="M26 44 L22 62" stroke="#3F3F3F" stroke-width="2" stroke-linecap="round" fill="none"/>
+
+    <!-- Left hand -->
+    <circle cx="21" cy="64" r="4" fill="#FCEA2B" stroke="#3F3F3F" stroke-width="2"/>
+
+    <!-- Right arm down at side -->
+    <path d="M46 44 L50 62" stroke="#FCEA2B" stroke-width="8" stroke-linecap="round"/>
+    <path d="M46 44 L50 62" stroke="#3F3F3F" stroke-width="2" stroke-linecap="round" fill="none"/>
+
+    <!-- Right hand -->
+    <circle cx="51" cy="64" r="4" fill="#FCEA2B" stroke="#3F3F3F" stroke-width="2"/>
+
+    <!-- Neutral face -->
+    <circle cx="32" cy="22" r="1.5" fill="#3F3F3F"/>
+    <circle cx="40" cy="22" r="1.5" fill="#3F3F3F"/>
+    <line x1="33" y1="28" x2="39" y2="28" stroke="#3F3F3F" stroke-width="2" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -1,0 +1,298 @@
+{
+  "version": "1.0",
+  "license": "OpenMoji assets: CC BY-SA 4.0 (https://openmoji.org), Custom assets: MIT",
+  "categories": {
+    "presentation": {
+      "name": "Presentation Essentials",
+      "description": "Core gestures for effective presentations"
+    },
+    "emphasis": {
+      "name": "Emphasis & Pointing",
+      "description": "Drawing attention to key points"
+    },
+    "enumeration": {
+      "name": "Counting & Lists",
+      "description": "Enumerating items or steps"
+    },
+    "emotion": {
+      "name": "Emotional Connection",
+      "description": "Building rapport and trust"
+    },
+    "body": {
+      "name": "Body & Arms",
+      "description": "Full body posture cues"
+    },
+    "avoid": {
+      "name": "Avoid These",
+      "description": "Gestures that hurt your presentation"
+    }
+  },
+  "gestures": {
+    "palm-up": {
+      "file": "palm-up.svg",
+      "name": "Open Palm (Up)",
+      "category": "presentation",
+      "description": "Palm facing upward - signals honesty and openness",
+      "useFor": ["welcoming statements", "asking questions", "showing transparency", "inviting participation"],
+      "example": "\"Let me share something with you...\""
+    },
+    "palm-down": {
+      "file": "palm-down.svg",
+      "name": "Palm Down",
+      "category": "presentation",
+      "description": "Palm facing downward - calming, authoritative",
+      "useFor": ["calming the audience", "making definitive statements", "settling a point"],
+      "example": "\"Here's what we know for certain...\""
+    },
+    "open-hands": {
+      "file": "open-hands.svg",
+      "name": "Open Hands",
+      "category": "presentation",
+      "description": "Both palms open and visible - maximum trust signal",
+      "useFor": ["openings", "conclusions", "honest admissions", "nothing to hide moments"],
+      "example": "\"I'm being completely honest with you...\""
+    },
+    "measure-loaf": {
+      "file": "measure-loaf.svg",
+      "name": "Measure the Loaf",
+      "category": "presentation",
+      "description": "Hands apart, palms facing - showing scope or amount",
+      "useFor": ["framing content", "showing scale", "defining boundaries", "setting expectations"],
+      "example": "\"Here's how much we're going to cover...\""
+    },
+    "pinching": {
+      "file": "pinching.svg",
+      "name": "Pinch & Point",
+      "category": "emphasis",
+      "description": "Thumb and finger pinched - precision emphasis",
+      "useFor": ["key details", "specific points", "precise moments", "nuanced ideas"],
+      "example": "\"This exact detail matters...\""
+    },
+    "pinched-fingers": {
+      "file": "pinched-fingers.svg",
+      "name": "Pinched Fingers",
+      "category": "emphasis",
+      "description": "Italian gesture - emphasizing a point with passion",
+      "useFor": ["passionate emphasis", "rhetorical questions", "expressing frustration"],
+      "example": "\"What are we even doing here?\""
+    },
+    "point-at-viewer": {
+      "file": "point-at-viewer.svg",
+      "name": "Point at Viewer",
+      "category": "emphasis",
+      "description": "Index finger pointing forward - direct engagement",
+      "useFor": ["direct address", "calls to action", "making it personal"],
+      "example": "\"This applies to YOU...\""
+    },
+    "thumbs-up": {
+      "file": "thumbs-up.svg",
+      "name": "Thumbs Up",
+      "category": "emphasis",
+      "description": "Approval, agreement, positive reinforcement",
+      "useFor": ["approval", "encouragement", "positive feedback", "agreement"],
+      "example": "\"That's exactly right!\""
+    },
+    "index-up": {
+      "file": "index-up.svg",
+      "name": "Index Up (Clinton Thumb)",
+      "category": "emphasis",
+      "description": "Fist with thumb extended upward - softer than pointing",
+      "useFor": ["emphasis without accusation", "important points", "intellectual focus"],
+      "example": "\"The key insight here is...\""
+    },
+    "point-up": {
+      "file": "point-up.svg",
+      "name": "Point Up",
+      "category": "emphasis",
+      "description": "Pointing upward - introducing ideas, referencing something above",
+      "useFor": ["introducing new ideas", "aspirational moments", "referencing higher concepts"],
+      "example": "\"Let's aim higher...\""
+    },
+    "countdown-1": {
+      "file": "countdown-1.svg",
+      "name": "One",
+      "category": "enumeration",
+      "description": "One finger raised",
+      "useFor": ["first item in list", "single point", "number one"],
+      "example": "\"First, ...\""
+    },
+    "countdown-2": {
+      "file": "countdown-2.svg",
+      "name": "Two",
+      "category": "enumeration",
+      "description": "Two fingers raised (peace sign)",
+      "useFor": ["second item", "two options", "pairs"],
+      "example": "\"Second, ...\""
+    },
+    "countdown-3": {
+      "file": "countdown-3.svg",
+      "name": "Three",
+      "category": "enumeration",
+      "description": "Three fingers raised",
+      "useFor": ["third item", "three points", "triads"],
+      "example": "\"And third, ...\""
+    },
+    "countdown-4": {
+      "file": "countdown-4.svg",
+      "name": "Four",
+      "category": "enumeration",
+      "description": "Four fingers raised",
+      "useFor": ["fourth item", "four elements"],
+      "example": "\"Fourth, ...\""
+    },
+    "countdown-5": {
+      "file": "countdown-5.svg",
+      "name": "Five",
+      "category": "enumeration",
+      "description": "Full hand raised (high five)",
+      "useFor": ["fifth item", "five points", "high five moment"],
+      "example": "\"And finally, the fifth...\""
+    },
+    "compare": {
+      "file": "compare.svg",
+      "name": "This or That",
+      "category": "enumeration",
+      "description": "Two hands in different positions - comparing options",
+      "useFor": ["comparing alternatives", "pros and cons", "choices", "contrasts"],
+      "example": "\"On one hand... on the other hand...\""
+    },
+    "heart-touch": {
+      "file": "heart-touch.svg",
+      "name": "Hand Over Heart",
+      "category": "emotion",
+      "description": "Hand placed on chest over heart - sincerity",
+      "useFor": ["personal stories", "sincere moments", "emotional truth", "vulnerability"],
+      "example": "\"This truly matters to me...\""
+    },
+    "folded-hands": {
+      "file": "folded-hands.svg",
+      "name": "Folded Hands",
+      "category": "emotion",
+      "description": "Hands together - gratitude, pleading, or prayer",
+      "useFor": ["gratitude", "requests", "heartfelt moments", "please"],
+      "example": "\"Thank you so much for...\""
+    },
+    "palms-together": {
+      "file": "palms-together.svg",
+      "name": "Palms Together",
+      "category": "emotion",
+      "description": "Cupped hands together - offering or receiving",
+      "useFor": ["offering something", "receiving", "presenting an idea gently"],
+      "example": "\"I offer you this perspective...\""
+    },
+    "expand-clasp": {
+      "file": "expand-clasp.svg",
+      "name": "Expand & Clasp",
+      "category": "emotion",
+      "description": "Hands coming together - unity, bringing ideas together",
+      "useFor": ["synthesis", "bringing together", "conclusion", "unity"],
+      "example": "\"When we bring all this together...\""
+    },
+    "raising-hands": {
+      "file": "raising-hands.svg",
+      "name": "Raising Hands",
+      "category": "emotion",
+      "description": "Both hands raised in celebration",
+      "useFor": ["celebration", "victory", "excitement", "breakthrough moments"],
+      "example": "\"We did it!\""
+    },
+    "clapping": {
+      "file": "clapping.svg",
+      "name": "Clapping",
+      "category": "emotion",
+      "description": "Hands clapping together",
+      "useFor": ["congratulations", "transitions", "emphasis", "getting attention"],
+      "example": "\"Let's give them a round of applause!\""
+    },
+    "arms-open": {
+      "file": "arms-open.svg",
+      "name": "Open Arms",
+      "category": "body",
+      "description": "Arms spread wide - welcoming, expansive, confident",
+      "useFor": ["big moments", "welcoming", "opening", "grand statements"],
+      "example": "\"Welcome everyone to...\""
+    },
+    "arms-sides": {
+      "file": "arms-sides.svg",
+      "name": "Arms at Sides",
+      "category": "body",
+      "description": "Neutral resting position - listening, pausing",
+      "useFor": ["pauses", "listening moments", "reset", "neutral baseline"],
+      "example": "(silence / listening to audience)"
+    },
+    "flexed-biceps": {
+      "file": "flexed-biceps.svg",
+      "name": "Flexed Arm",
+      "category": "body",
+      "description": "Flexed bicep - strength, determination, power",
+      "useFor": ["strength metaphors", "determination", "challenge", "power"],
+      "example": "\"We have the strength to...\""
+    },
+    "arms-crossed": {
+      "file": "arms-crossed.svg",
+      "name": "Arms Crossed (AVOID)",
+      "category": "avoid",
+      "description": "Crossed arms - defensive, closed off. AVOID THIS!",
+      "useFor": [],
+      "avoid": true,
+      "warning": "Signals defensiveness and closes you off from the audience. Studies show audiences retain 38% less when speakers have crossed arms."
+    },
+    "thumbs-down": {
+      "file": "thumbs-down.svg",
+      "name": "Thumbs Down (CAUTION)",
+      "category": "avoid",
+      "description": "Disapproval - use sparingly and carefully",
+      "useFor": ["showing what NOT to do", "negative examples"],
+      "caution": true,
+      "warning": "Can come across as judgmental. Use only when discussing negative examples."
+    },
+    "wave": {
+      "file": "wave.svg",
+      "name": "Wave",
+      "category": "emotion",
+      "description": "Waving hand - greeting or farewell",
+      "useFor": ["greetings", "goodbyes", "acknowledgment", "friendly hello"],
+      "example": "\"Hello everyone!\" or \"Thanks for watching!\""
+    },
+    "hand-right": {
+      "file": "hand-right.svg",
+      "name": "Hand Right",
+      "category": "emphasis",
+      "description": "Hand gesturing to the right",
+      "useFor": ["directing attention right", "transitions", "next point"],
+      "example": "\"Moving on to the next topic...\""
+    },
+    "hand-left": {
+      "file": "hand-left.svg",
+      "name": "Hand Left",
+      "category": "emphasis",
+      "description": "Hand gesturing to the left",
+      "useFor": ["directing attention left", "referencing past", "previous point"],
+      "example": "\"As we discussed earlier...\""
+    },
+    "victory": {
+      "file": "victory.svg",
+      "name": "Victory",
+      "category": "emotion",
+      "description": "Peace/victory sign - success, positivity",
+      "useFor": ["success", "peace", "positivity", "two items"],
+      "example": "\"Victory is ours!\""
+    },
+    "call-me": {
+      "file": "call-me.svg",
+      "name": "Call Me",
+      "category": "emotion",
+      "description": "Phone gesture - casual, friendly",
+      "useFor": ["casual moments", "contact requests", "informal tone"],
+      "example": "\"Hit me up anytime...\""
+    },
+    "rock-on": {
+      "file": "rock-on.svg",
+      "name": "Rock On",
+      "category": "emotion",
+      "description": "Rock and roll sign - excitement, energy",
+      "useFor": ["high energy moments", "excitement", "rock on", "enthusiasm"],
+      "example": "\"Let's rock this!\""
+    }
+  }
+}

@@ -1,0 +1,177 @@
+{
+  "title": "Example Script: How to Use Otocue",
+  "chapters": [
+    {
+      "chapter": "Introduction",
+      "timestamp": "0:00",
+      "segments": [
+        {
+          "line": "Welcome to **Otocue**, •your personal teleprompter.",
+          "format": "on-camera",
+          "notes": "Friendly opening, make eye contact",
+          "gesture": "arms-open"
+        },
+        {
+          "line": "This tool helps you deliver scripts with •**confidence** and •**precision**.",
+          "format": "on-camera",
+          "notes": null,
+          "gesture": "palm-up"
+        },
+        {
+          "line": "Let me show you how it works.",
+          "format": "b-roll",
+          "notes": "Show the interface"
+        }
+      ]
+    },
+    {
+      "chapter": "Notation Examples",
+      "timestamp": "TBD",
+      "segments": [
+        {
+          "line": "First, let's talk about **pauses**.",
+          "format": "on-camera",
+          "notes": null,
+          "gesture": "countdown-1"
+        },
+        {
+          "line": "A single dot •creates a short breath pause.",
+          "format": "on-camera",
+          "notes": "Demonstrate the pause",
+          "gesture": "pinching"
+        },
+        {
+          "line": "Three dots • • • create a longer, dramatic pause.",
+          "format": "on-camera",
+          "notes": "Let the pause land",
+          "gesture": "measure-loaf"
+        },
+        {
+          "line": "//",
+          "format": "on-camera",
+          "notes": "Complete silence - hold eye contact",
+          "gesture": "arms-sides"
+        },
+        {
+          "line": "That was a beat of complete silence.",
+          "format": "on-camera",
+          "notes": null
+        },
+        {
+          "line": "Now let's look at **emphasis**. You can make words _soft and understated_ or **strong and powerful**.",
+          "format": "on-camera",
+          "notes": null,
+          "gesture": "compare"
+        },
+        {
+          "line": "<<Slow down for important moments>>",
+          "format": "on-camera",
+          "notes": "Demonstrate slow delivery",
+          "gesture": "palm-down"
+        },
+        {
+          "line": ">>Or speed up for energy and excitement!<<",
+          "format": "on-camera",
+          "notes": "Demonstrate fast delivery",
+          "gesture": "raising-hands"
+        },
+        {
+          "line": "^Questions can rise in pitch?^",
+          "format": "on-camera",
+          "notes": null,
+          "gesture": "point-up"
+        },
+        {
+          "line": ",And statements can fall for finality,.",
+          "format": "on-camera",
+          "notes": null,
+          "gesture": "palm-down"
+        },
+        {
+          "line": "You can even ~whisper for intimacy~",
+          "format": "on-camera",
+          "notes": null,
+          "gesture": "heart-touch"
+        },
+        {
+          "line": "Or go LOUD for impact!",
+          "format": "on-camera",
+          "notes": null,
+          "gesture": "flexed-biceps"
+        }
+      ]
+    },
+    {
+      "chapter": "Emotional Styles",
+      "timestamp": "TBD",
+      "segments": [
+        {
+          "line": "The notation also supports emotional styles for TTS generation.",
+          "format": "on-camera",
+          "notes": null,
+          "gesture": "open-hands"
+        },
+        {
+          "line": "{excited: This is so exciting!}",
+          "format": "on-camera",
+          "notes": "High energy",
+          "gesture": "raising-hands"
+        },
+        {
+          "line": "{sad: Sometimes things don't go as planned.}",
+          "format": "on-camera",
+          "notes": "Melancholy",
+          "gesture": "folded-hands"
+        },
+        {
+          "line": "{hopeful: But there's always a way forward.}",
+          "format": "on-camera",
+          "notes": "Optimistic",
+          "gesture": "point-up"
+        },
+        {
+          "line": "{calm: Take a deep breath and relax.}",
+          "format": "on-camera",
+          "notes": "Soothing",
+          "gesture": "palm-down"
+        }
+      ]
+    },
+    {
+      "chapter": "Putting It Together",
+      "timestamp": "TBD",
+      "segments": [
+        {
+          "line": "Now you know the basics of Otocue notation.",
+          "format": "on-camera",
+          "notes": null,
+          "gesture": "thumbs-up"
+        },
+        {
+          "line": "The key is to •use notation sparingly. • • •Less is more.",
+          "format": "on-camera",
+          "notes": "Important principle",
+          "gesture": "pinching"
+        },
+        {
+          "line": "<<Mark only the moments that **truly** matter>>.",
+          "format": "on-camera",
+          "notes": null,
+          "gesture": "index-up"
+        },
+        {
+          "line": "^Ready to create your own scripts?^",
+          "format": "on-camera",
+          "notes": "Encouraging",
+          "gesture": "point-at-viewer"
+        },
+        {
+          "line": ",**Go for it**,.",
+          "format": "on-camera",
+          "notes": "Final encouragement",
+          "gesture": "thumbs-up"
+        }
+      ]
+    }
+  ]
+}

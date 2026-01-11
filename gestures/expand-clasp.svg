@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+  <!-- Expand and Clasp - hands coming together (unity) -->
+  <g>
+    <!-- Left hand moving inward -->
+    <ellipse cx="24" cy="36" rx="8" ry="5" fill="#FCEA2B" stroke="#3F3F3F" stroke-width="2"/>
+    <path d="M20 34 L16 28" stroke="#FCEA2B" stroke-width="4" stroke-linecap="round"/>
+    <path d="M20 34 L16 28" stroke="#3F3F3F" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M24 32 L22 26" stroke="#FCEA2B" stroke-width="4" stroke-linecap="round"/>
+    <path d="M24 32 L22 26" stroke="#3F3F3F" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M28 34 L30 28" stroke="#FCEA2B" stroke-width="4" stroke-linecap="round"/>
+    <path d="M28 34 L30 28" stroke="#3F3F3F" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- Right hand moving inward -->
+    <ellipse cx="48" cy="36" rx="8" ry="5" fill="#FCEA2B" stroke="#3F3F3F" stroke-width="2"/>
+    <path d="M44 34 L42 28" stroke="#FCEA2B" stroke-width="4" stroke-linecap="round"/>
+    <path d="M44 34 L42 28" stroke="#3F3F3F" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M48 32 L50 26" stroke="#FCEA2B" stroke-width="4" stroke-linecap="round"/>
+    <path d="M48 32 L50 26" stroke="#3F3F3F" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M52 34 L56 28" stroke="#FCEA2B" stroke-width="4" stroke-linecap="round"/>
+    <path d="M52 34 L56 28" stroke="#3F3F3F" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- Motion arrows showing convergence -->
+    <path d="M12 36 L18 36" stroke="#92D3F5" stroke-width="2" stroke-linecap="round"/>
+    <polygon points="18,36 14,33 14,39" fill="#92D3F5"/>
+
+    <path d="M60 36 L54 36" stroke="#92D3F5" stroke-width="2" stroke-linecap="round"/>
+    <polygon points="54,36 58,33 58,39" fill="#92D3F5"/>
+
+    <!-- Unity symbol in center -->
+    <circle cx="36" cy="36" r="6" fill="none" stroke="#92D3F5" stroke-width="2" stroke-dasharray="3,2"/>
+
+    <!-- Description below -->
+    <text x="36" y="54" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">unity</text>
+  </g>
+</svg>

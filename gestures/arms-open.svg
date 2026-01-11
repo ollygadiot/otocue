@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+  <!-- Open Arms - welcoming, confident gesture -->
+  <!-- Style matches OpenMoji aesthetic -->
+  <g>
+    <!-- Body/torso outline -->
+    <ellipse cx="36" cy="52" rx="12" ry="16" fill="#FCEA2B" stroke="#3F3F3F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Head -->
+    <circle cx="36" cy="24" r="10" fill="#FCEA2B" stroke="#3F3F3F" stroke-width="2"/>
+
+    <!-- Left arm extended outward -->
+    <path d="M24 44 L8 36" stroke="#FCEA2B" stroke-width="8" stroke-linecap="round"/>
+    <path d="M24 44 L8 36" stroke="#3F3F3F" stroke-width="2" stroke-linecap="round" fill="none"/>
+
+    <!-- Left hand open -->
+    <circle cx="6" cy="35" r="5" fill="#FCEA2B" stroke="#3F3F3F" stroke-width="2"/>
+
+    <!-- Right arm extended outward -->
+    <path d="M48 44 L64 36" stroke="#FCEA2B" stroke-width="8" stroke-linecap="round"/>
+    <path d="M48 44 L64 36" stroke="#3F3F3F" stroke-width="2" stroke-linecap="round" fill="none"/>
+
+    <!-- Right hand open -->
+    <circle cx="66" cy="35" r="5" fill="#FCEA2B" stroke="#3F3F3F" stroke-width="2"/>
+
+    <!-- Simple face - friendly -->
+    <circle cx="32" cy="22" r="1.5" fill="#3F3F3F"/>
+    <circle cx="40" cy="22" r="1.5" fill="#3F3F3F"/>
+    <path d="M32 28 Q36 32 40 28" stroke="#3F3F3F" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>

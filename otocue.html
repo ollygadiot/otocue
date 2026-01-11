@@ -1,0 +1,2083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Otocue</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23111' stroke='%2360d080' stroke-width='2'/%3E%3Cline x1='10' y1='11' x2='22' y2='11' stroke='%23555' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='10' y1='16' x2='22' y2='16' stroke='%2360d080' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='10' y1='21' x2='18' y2='21' stroke='%23555' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <style>
+    /* ========== CSS CUSTOM PROPERTIES ========== */
+    :root {
+      /* Colors */
+      --color-bg: #000;
+      --color-bg-panel: rgba(15, 15, 15, 0.95);
+      --color-bg-button: rgba(40, 40, 40, 0.8);
+      --color-bg-button-hover: rgba(55, 55, 55, 0.9);
+      --color-bg-button-active: rgba(65, 65, 65, 0.95);
+      --color-bg-button-depth: rgba(50, 50, 50, 0.9);
+
+      --color-text: #fff;
+      --color-text-muted: rgba(255, 255, 255, 0.85);
+      --color-text-dim: rgba(255, 255, 255, 0.6);
+      --color-text-faint: rgba(255, 255, 255, 0.5);
+
+      --color-border: rgba(255, 255, 255, 0.25);
+      --color-border-dim: rgba(255, 255, 255, 0.15);
+      --color-border-faint: rgba(255, 255, 255, 0.1);
+
+      --color-accent: #60d080;
+      --color-accent-bg: rgba(30, 60, 40, 0.8);
+      --color-accent-bg-hover: rgba(35, 70, 45, 0.9);
+      --color-accent-bg-depth: rgba(30, 80, 50, 0.9);
+      --color-accent-border: rgba(80, 200, 120, 0.3);
+      --color-accent-glow: rgba(80, 200, 120, 0.4);
+      --color-accent-glow-soft: rgba(80, 200, 120, 0.2);
+
+      --color-yellow: #f9c74f;
+      --color-yellow-bg: rgba(30, 30, 30, 0.8);
+      --color-yellow-bg-depth: rgba(80, 60, 20, 0.9);
+      --color-yellow-border: rgba(249, 199, 79, 0.3);
+      --color-yellow-glow: rgba(249, 199, 79, 0.2);
+
+      --color-danger: #ff6070;
+      --color-danger-bg: rgba(60, 30, 35, 0.8);
+      --color-danger-bg-depth: rgba(100, 30, 40, 0.9);
+      --color-danger-border: rgba(230, 57, 70, 0.3);
+      --color-danger-glow: rgba(230, 57, 70, 0.4);
+
+      --color-b-roll: #ffd700;
+      --color-emphasis: #0ff;
+
+      /* Spacing */
+      --spacing-xs: 4px;
+      --spacing-sm: 8px;
+      --spacing-md: 16px;
+      --spacing-lg: 20px;
+      --spacing-xl: 40px;
+
+      /* Timing */
+      --transition-fast: 0.1s ease;
+      --transition-normal: 0.15s ease;
+      --transition-slow: 0.3s ease;
+
+      /* 3D Button depth */
+      --btn-depth: 6px;
+      --btn-depth-sm: 4px;
+      --btn-depth-xs: 3px;
+
+      /* Border radius */
+      --radius-sm: 2px;
+      --radius-md: 4px;
+      --radius-lg: 6px;
+      --radius-round: 50%;
+
+      /* Shadows */
+      --shadow-glow: 0 0 10px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 0.05);
+      --shadow-glow-inset: inset 0 0 15px rgba(255, 255, 255, 0.08);
+      --shadow-glow-hover: 0 0 15px rgba(255, 255, 255, 0.2), 0 0 30px rgba(255, 255, 255, 0.1);
+      --shadow-glow-inset-hover: inset 0 0 20px rgba(255, 255, 255, 0.12);
+    }
+
+    /* ========== RESET & BASE ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: 'Helvetica Neue', Helvetica, sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      overflow: hidden;
+      height: 100vh;
+      -webkit-app-region: no-drag;
+    }
+
+    /* ========== 3D BUTTON BASE ========== */
+    .btn-3d {
+      position: relative;
+      background: var(--color-bg-button);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      color: var(--color-text-muted);
+      cursor: pointer;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      transform-style: preserve-3d;
+      transform: translateY(0);
+      transition: transform var(--transition-fast), box-shadow var(--transition-normal);
+      box-shadow: var(--shadow-glow), var(--shadow-glow-inset);
+      outline: none;
+    }
+
+    .btn-3d::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--color-bg-button-depth);
+      border: 1px solid var(--color-border-dim);
+      border-radius: inherit;
+      transform: translate3d(0, var(--btn-depth), -1px);
+      transition: transform var(--transition-fast);
+    }
+
+    .btn-3d:hover {
+      background: var(--color-bg-button-hover);
+      color: var(--color-text);
+      box-shadow: var(--shadow-glow-hover), var(--shadow-glow-inset-hover);
+    }
+
+    .btn-3d:active {
+      transform: translateY(5px);
+      background: var(--color-bg-button-active);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.25), inset 0 0 25px rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-3d:active::before {
+      transform: translate3d(0, 1px, -1px);
+    }
+
+    /* Active/Selected state */
+    .btn-3d.active {
+      background: var(--color-accent-bg);
+      border-color: var(--color-accent-border);
+      color: var(--color-accent);
+      transform: translateY(5px);
+      box-shadow: 0 0 15px var(--color-accent-glow), 0 0 30px var(--color-accent-glow-soft), inset 0 0 20px rgba(80, 200, 120, 0.25);
+    }
+
+    .btn-3d.active::before {
+      background: var(--color-accent-bg-depth);
+      border-color: rgba(80, 200, 120, 0.2);
+      transform: translate3d(0, 1px, -1px);
+    }
+
+    .btn-3d.active:hover {
+      background: var(--color-accent-bg-hover);
+      color: #70e090;
+      box-shadow: 0 0 20px rgba(80, 200, 120, 0.5), 0 0 40px rgba(80, 200, 120, 0.25), inset 0 0 25px rgba(80, 200, 120, 0.3);
+    }
+
+    /* Yellow variant */
+    .btn-3d--yellow {
+      background: var(--color-yellow-bg);
+      border-color: var(--color-yellow-border);
+      color: var(--color-yellow);
+      box-shadow: 0 0 10px var(--color-yellow-glow), 0 0 20px rgba(249, 199, 79, 0.1), inset 0 0 15px rgba(249, 199, 79, 0.15);
+    }
+
+    .btn-3d--yellow::before {
+      background: var(--color-yellow-bg-depth);
+      border-color: rgba(249, 199, 79, 0.2);
+    }
+
+    .btn-3d--yellow:hover {
+      background: rgba(40, 40, 40, 0.9);
+      color: #fad75f;
+      box-shadow: 0 0 15px rgba(249, 199, 79, 0.35), 0 0 30px rgba(249, 199, 79, 0.2), inset 0 0 20px rgba(249, 199, 79, 0.25);
+    }
+
+    .btn-3d--yellow:active {
+      background: rgba(50, 45, 30, 0.95);
+      color: #ffe066;
+      box-shadow: 0 0 20px rgba(249, 199, 79, 0.5), 0 0 40px rgba(249, 199, 79, 0.25), inset 0 0 25px rgba(249, 199, 79, 0.35);
+    }
+
+    /* Danger variant (for delete buttons) */
+    .btn-3d--danger:hover {
+      background: var(--color-danger-bg);
+      border-color: var(--color-danger-border);
+      color: var(--color-danger);
+      box-shadow: 0 0 15px var(--color-danger-glow), 0 0 30px rgba(230, 57, 70, 0.2), inset 0 0 20px rgba(230, 57, 70, 0.25);
+    }
+
+    .btn-3d--danger:hover::before {
+      background: var(--color-danger-bg-depth);
+      border-color: rgba(230, 57, 70, 0.2);
+    }
+
+    /* Success variant (for download buttons) */
+    .btn-3d--success:hover {
+      background: var(--color-accent-bg);
+      border-color: var(--color-accent-border);
+      color: var(--color-accent);
+      box-shadow: 0 0 15px var(--color-accent-glow), 0 0 30px var(--color-accent-glow-soft), inset 0 0 20px rgba(80, 200, 120, 0.25);
+    }
+
+    .btn-3d--success:hover::before {
+      background: var(--color-accent-bg-depth);
+      border-color: rgba(80, 200, 120, 0.2);
+    }
+
+    /* Circle variant */
+    .btn-3d--circle {
+      border-radius: var(--radius-round);
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Small variant */
+    .btn-3d--sm {
+      padding: 6px 10px;
+      font-size: 0.9rem;
+    }
+
+    .btn-3d--sm::before {
+      transform: translate3d(0, var(--btn-depth-xs), -1px);
+    }
+
+    .btn-3d--sm:active::before {
+      transform: translate3d(0, 1px, -1px);
+    }
+
+    /* ========== CONTROLS BAR ========== */
+    .controls {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(10, 10, 10, 0.95);
+      padding: 22px var(--spacing-lg);
+      display: flex;
+      gap: var(--spacing-lg);
+      align-items: center;
+      z-index: 100;
+      border-bottom: 1px solid #333;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+      flex-wrap: wrap;
+      transform: translateY(-100%);
+      transition: transform var(--transition-slow);
+    }
+
+    .controls-trigger {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 20px;
+      z-index: 99;
+      -webkit-app-region: no-drag;
+    }
+
+    .controls-trigger:hover + .controls,
+    .controls:hover,
+    .controls.visible {
+      transform: translateY(0);
+    }
+
+    .controls label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--color-text-dim);
+      cursor: pointer;
+      transition: color var(--transition-normal);
+    }
+
+    .controls label:hover {
+      color: var(--color-text-muted);
+    }
+
+    /* Checkbox styling */
+    .controls input[type="checkbox"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      background: var(--color-bg-button);
+      border: 1px solid var(--color-border);
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all var(--transition-normal);
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.08), inset 0 0 8px rgba(255, 255, 255, 0.05);
+    }
+
+    .controls input[type="checkbox"]:hover {
+      border-color: rgba(255, 255, 255, 0.4);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.15), inset 0 0 10px rgba(255, 255, 255, 0.08);
+    }
+
+    .controls input[type="checkbox"]:checked {
+      background: var(--color-accent-bg);
+      border-color: rgba(80, 200, 120, 0.5);
+      box-shadow: 0 0 10px var(--color-accent-glow), inset 0 0 10px rgba(80, 200, 120, 0.3);
+    }
+
+    .controls input[type="checkbox"]:checked::after {
+      content: '✓';
+      display: block;
+      color: var(--color-accent);
+      font-size: 10px;
+      text-align: center;
+      line-height: 14px;
+    }
+
+    /* Range slider styling */
+    .controls input[type="range"] {
+      width: 120px;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 8px;
+      background: var(--color-bg-button);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--radius-md);
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.1), inset 0 0 10px rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+    }
+
+    .controls input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      background: var(--color-bg-button-depth);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-round);
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2), inset 0 0 8px rgba(255, 255, 255, 0.1);
+      transition: box-shadow var(--transition-normal);
+    }
+
+    .controls input[type="range"]::-webkit-slider-thumb:hover {
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.35), inset 0 0 12px rgba(255, 255, 255, 0.15);
+    }
+
+    .controls input[type="range"]:active::-webkit-slider-thumb {
+      background: var(--color-accent-bg);
+      border-color: rgba(80, 200, 120, 0.5);
+      box-shadow: 0 0 15px rgba(80, 200, 120, 0.5), 0 0 25px rgba(80, 200, 120, 0.3), inset 0 0 10px rgba(80, 200, 120, 0.3);
+    }
+
+    .controls input[type="range"]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      background: var(--color-bg-button-depth);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-round);
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2), inset 0 0 8px rgba(255, 255, 255, 0.1);
+    }
+
+    .controls input[type="range"]:active::-moz-range-thumb {
+      background: var(--color-accent-bg);
+      border-color: rgba(80, 200, 120, 0.5);
+      box-shadow: 0 0 15px rgba(80, 200, 120, 0.5), 0 0 25px rgba(80, 200, 120, 0.3), inset 0 0 10px rgba(80, 200, 120, 0.3);
+    }
+
+    .controls button {
+      padding: 10px 18px;
+      font-size: 13px;
+    }
+
+    #playPause {
+      min-width: 75px;
+    }
+
+    .static-mode #playPause {
+      pointer-events: none;
+    }
+
+    .mode-toggle {
+      display: flex;
+      gap: var(--spacing-xs);
+    }
+
+    .font-size-control {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+    }
+
+    .font-btn {
+      font-size: 12px;
+    }
+
+    .speed-display {
+      min-width: 40px;
+      text-align: center;
+      color: var(--color-accent);
+      font-weight: bold;
+    }
+
+    /* ========== CONTENT AREA ========== */
+    .content {
+      padding: 50vh var(--spacing-lg);
+      overflow-y: auto;
+      height: 100vh;
+      scroll-behavior: smooth;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .chapter {
+      margin-bottom: 200px;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .chapter-title {
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: #666;
+      margin-bottom: var(--spacing-xl);
+      padding-bottom: 10px;
+      border-bottom: 1px solid #333;
+      text-align: center;
+    }
+
+    .script-title {
+      font-size: 2.5rem;
+      font-weight: 400;
+      margin-bottom: 50vh;
+      color: #888;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    /* ========== SEGMENT STYLES ========== */
+    .segment {
+      position: relative;
+      padding: var(--spacing-lg) 30px;
+      margin-bottom: 150px;
+      border-radius: 8px;
+      font-size: 2.2rem;
+      line-height: 1.5;
+      transition: all var(--transition-slow);
+      cursor: pointer;
+      max-width: 600px;
+    }
+
+    .segment.on-camera {
+      color: var(--color-text);
+    }
+
+    .segment.b-roll {
+      color: var(--color-b-roll);
+    }
+
+    .segment b {
+      font-weight: 700;
+      color: var(--color-text);
+    }
+
+    .segment.b-roll b {
+      color: #ffe566;
+    }
+
+    .segment em {
+      font-style: normal;
+      opacity: 0.7;
+    }
+
+    .segment .notes {
+      font-size: 1rem;
+      color: #666;
+      margin-top: 10px;
+      font-style: italic;
+      display: none;
+    }
+
+    /* Static mode */
+    .static-mode .segment {
+      opacity: 0.3;
+    }
+
+    .static-mode .segment.current {
+      opacity: 1;
+    }
+
+    .static-mode .segment.past {
+      opacity: 0.15;
+    }
+
+    /* Mirror mode */
+    .mirror-mode .content {
+      transform: scaleY(-1);
+    }
+
+    /* Listen button */
+    .listen-btn {
+      position: relative;
+      background: linear-gradient(180deg, #5a7be8 0%, #4169e1 100%);
+      border: none;
+      border-radius: var(--radius-sm);
+      color: var(--color-text);
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-top: 15px;
+      opacity: 0;
+      transform-style: preserve-3d;
+      transform: translateY(0);
+      transition: transform var(--transition-fast), opacity 0.2s ease;
+    }
+
+    .listen-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #1a3a9c;
+      border-radius: inherit;
+      transform: translate3d(0, var(--btn-depth-sm), -1px);
+      transition: transform var(--transition-fast), background var(--transition-fast);
+    }
+
+    .segment:hover .listen-btn,
+    .listen-btn.playing {
+      opacity: 1;
+    }
+
+    .listen-btn:hover {
+      background: linear-gradient(180deg, #6a8bf8 0%, #5179f1 100%);
+    }
+
+    .listen-btn:active {
+      transform: translateY(3px);
+    }
+
+    .listen-btn:active::before {
+      transform: translate3d(0, 1px, -1px);
+    }
+
+    .listen-btn.playing {
+      background: linear-gradient(180deg, #ff4d5a 0%, #e63946 100%);
+      transform: translateY(3px);
+      box-shadow: 0 0 15px rgba(230, 57, 70, 0.6), 0 0 30px rgba(230, 57, 70, 0.3), inset 0 0 10px rgba(255, 255, 255, 0.15);
+    }
+
+    .listen-btn.playing::before {
+      background: #6c1018;
+      transform: translate3d(0, 1px, -1px);
+    }
+
+    .listen-btn.unavailable {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    /* ========== NOTATION STYLES ========== */
+    /* Pauses */
+    .pause {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #555;
+      margin: 0 var(--spacing-sm);
+      vertical-align: middle;
+    }
+
+    .pause-short {
+      width: 24px;
+      height: 24px;
+    }
+
+    .pause-short::before {
+      content: '‖';
+      font-size: 0.8em;
+      opacity: 0.5;
+    }
+
+    .pause-long {
+      width: 60px;
+      height: 60px;
+      margin: var(--spacing-lg) auto;
+      display: flex;
+    }
+
+    .pause-long::before {
+      content: '';
+      width: 40px;
+      height: 40px;
+      border: 2px solid var(--color-emphasis);
+      border-radius: var(--radius-round);
+      animation: breathe 3s ease-in-out infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: scale(0.8); opacity: 0.3; }
+      50% { transform: scale(1.2); opacity: 0.8; }
+    }
+
+    .pause-silence {
+      display: block;
+      height: 80px;
+      margin: var(--spacing-lg) 0;
+      position: relative;
+    }
+
+    .pause-silence::before {
+      content: '—';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: #333;
+      font-size: 2rem;
+      letter-spacing: 1em;
+    }
+
+    /* Emphasis */
+    .emphasis-strong {
+      font-weight: 700;
+      color: var(--color-emphasis);
+      display: inline;
+    }
+
+    .segment.b-roll .emphasis-strong {
+      color: #ffe566;
+    }
+
+    .emphasis-soft {
+      opacity: 0.6;
+      font-size: 0.9em;
+      font-style: normal;
+    }
+
+    /* Speed */
+    .speed-slow {
+      display: inline-block;
+      transform: skewX(10deg);
+      color: #aaa;
+    }
+
+    .speed-fast {
+      display: inline-block;
+      transform: skewX(-10deg);
+      font-weight: 500;
+    }
+
+    /* Pitch */
+    .pitch-up {
+      position: relative;
+      top: -0.3em;
+      font-size: 0.9em;
+      color: var(--color-emphasis);
+    }
+
+    .pitch-down {
+      position: relative;
+      top: 0.2em;
+      font-size: 0.95em;
+      color: #888;
+    }
+
+    /* Volume */
+    .volume-loud {
+      font-weight: 900;
+      font-size: 1.15em;
+      letter-spacing: 0.02em;
+    }
+
+    .volume-whisper {
+      font-weight: 300;
+      opacity: 0.5;
+      font-size: 0.9em;
+      letter-spacing: 0.05em;
+    }
+
+    /* Style/Emotion tags */
+    .style-tag {
+      display: inline;
+      padding: 2px 0;
+      border-radius: 3px;
+    }
+
+    .style-cheerful { color: #ffeb3b; text-shadow: 0 0 10px rgba(255, 235, 59, 0.3); }
+    .style-excited { color: #ff9800; font-weight: 600; text-shadow: 0 0 15px rgba(255, 152, 0, 0.4); }
+    .style-sad { color: #90a4ae; font-style: italic; }
+    .style-angry { color: #f44336; font-weight: 700; text-transform: uppercase; font-size: 0.95em; }
+    .style-friendly { color: #8bc34a; }
+    .style-hopeful { color: var(--color-emphasis); }
+    .style-empathetic { color: #ce93d8; font-style: italic; }
+    .style-calm { color: #b0bec5; letter-spacing: 0.05em; }
+    .style-terrified { color: #ff5722; font-weight: 300; letter-spacing: 0.1em; }
+    .style-shouting { color: var(--color-text); font-weight: 900; font-size: 1.2em; text-transform: uppercase; text-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+    .style-whispering { color: #78909c; font-weight: 300; font-size: 0.85em; letter-spacing: 0.08em; opacity: 0.7; }
+
+    /* ========== GESTURE BADGES ========== */
+    .gesture-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 56px;
+      height: 56px;
+      opacity: 0;
+      transition: opacity var(--transition-slow);
+      pointer-events: none;
+      display: none;
+    }
+
+    .gesture-badge img {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+    }
+
+    .gesture-badge.visible {
+      opacity: 0.85;
+      display: block;
+    }
+
+    .segment:hover .gesture-badge.visible {
+      opacity: 1;
+    }
+
+    .segment.current .gesture-badge.visible {
+      opacity: 1;
+      animation: gesture-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes gesture-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    .gesture-badge.avoid img {
+      filter: drop-shadow(0 2px 8px rgba(234, 90, 71, 0.4));
+    }
+
+    .gesture-badge .gesture-tooltip {
+      position: absolute;
+      bottom: -28px;
+      right: 0;
+      background: rgba(30, 30, 30, 0.95);
+      color: #aaa;
+      font-size: 0.7rem;
+      padding: var(--spacing-xs) var(--spacing-sm);
+      border-radius: var(--radius-md);
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+    }
+
+    .segment:hover .gesture-badge .gesture-tooltip {
+      opacity: 1;
+    }
+
+    /* ========== PROGRESS BAR ========== */
+    .progress-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #e63946, #f9c74f, #4169e1);
+      transition: width var(--transition-slow);
+      z-index: 100;
+    }
+
+    /* ========== SIDEBAR PANEL ========== */
+    .sidebar-panel {
+      position: fixed;
+      bottom: var(--spacing-lg);
+      right: var(--spacing-lg);
+      background: var(--color-bg-panel);
+      border: 1px solid var(--color-border-dim);
+      border-radius: var(--radius-lg);
+      padding: 0;
+      width: 320px;
+      max-height: calc(100vh - 100px);
+      overflow: hidden;
+      z-index: 101;
+      display: none;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.03), inset 0 0 30px rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .sidebar-panel.visible {
+      display: block;
+    }
+
+    .sidebar-toggle {
+      display: flex;
+      border-bottom: 1px solid var(--color-border-faint);
+    }
+
+    .sidebar-toggle button {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--color-text-faint);
+      padding: 12px var(--spacing-md);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all var(--transition-normal);
+      position: relative;
+    }
+
+    .sidebar-toggle button:hover {
+      color: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .sidebar-toggle button.active {
+      color: var(--color-accent);
+      background: rgba(80, 200, 120, 0.1);
+    }
+
+    .sidebar-toggle button.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 20%;
+      right: 20%;
+      height: 2px;
+      background: var(--color-accent);
+      border-radius: 1px;
+    }
+
+    .sidebar-content {
+      padding: var(--spacing-md);
+      height: 50vh;
+      overflow-y: auto;
+    }
+
+    .sidebar-section {
+      display: none;
+    }
+
+    .sidebar-section.active {
+      display: block;
+    }
+
+    .sidebar-panel h3 {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin: 0 0 12px 0;
+      padding-bottom: var(--spacing-sm);
+      border-bottom: 1px solid var(--color-border-faint);
+    }
+
+    .sidebar-panel h4 {
+      color: var(--color-text-faint);
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin: 14px 0 var(--spacing-sm) 0;
+    }
+
+    .sidebar-panel h4:first-of-type {
+      margin-top: 0;
+    }
+
+    /* Keyboard shortcuts */
+    .shortcuts-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-sm);
+    }
+
+    .shortcut-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .shortcut-row:last-child {
+      border-bottom: none;
+    }
+
+    .shortcut-keys {
+      display: flex;
+      gap: var(--spacing-xs);
+    }
+
+    .shortcut-keys kbd {
+      background: var(--color-bg-button);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--color-accent);
+      padding: var(--spacing-xs) var(--spacing-sm);
+      border-radius: var(--radius-md);
+      font-size: 11px;
+      font-family: inherit;
+      box-shadow: 0 0 6px rgba(80, 200, 120, 0.15), inset 0 0 8px rgba(80, 200, 120, 0.1);
+    }
+
+    .shortcut-desc {
+      color: var(--color-text-dim);
+      font-size: 12px;
+    }
+
+    /* Legend rows */
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: var(--spacing-sm) 0;
+      border-bottom: 1px solid #222;
+    }
+
+    .legend-row:last-child {
+      border-bottom: none;
+    }
+
+    .legend-notation {
+      font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+      background: #2a2a2a;
+      padding: var(--spacing-xs) var(--spacing-sm);
+      border-radius: var(--radius-md);
+      color: #f0f0f0;
+      font-size: 0.8rem;
+      min-width: 80px;
+      text-align: center;
+    }
+
+    .legend-preview {
+      flex: 1;
+      font-size: 1rem;
+    }
+
+    .legend-desc {
+      color: #666;
+      font-size: 0.75rem;
+    }
+
+    /* ========== MODAL ========== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: var(--spacing-xl);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .modal-overlay.hidden {
+      display: none;
+    }
+
+    .modal-content {
+      background: rgba(20, 20, 20, 0.95);
+      border: 1px solid var(--color-border-dim);
+      border-radius: 8px;
+      padding: var(--spacing-xl);
+      max-width: 500px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.05), inset 0 0 30px rgba(255, 255, 255, 0.02);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      padding: 6px 10px;
+      font-size: 1rem;
+    }
+
+    .modal-close::before {
+      transform: translate3d(0, var(--btn-depth-sm), -1px);
+    }
+
+    .modal-title {
+      font-size: 2rem;
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+      color: var(--color-text);
+    }
+
+    .modal-subtitle {
+      color: #666;
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Upload area */
+    .upload-area {
+      border: 2px dashed #333;
+      border-radius: 0;
+      padding: 60px 80px;
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--transition-slow);
+      max-width: 500px;
+    }
+
+    .upload-area:hover,
+    .upload-area.dragover {
+      border-color: #4169e1;
+      background: rgba(65, 105, 225, 0.05);
+    }
+
+    .upload-area h2 {
+      color: var(--color-text);
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .upload-area p {
+      color: #666;
+      margin-bottom: 1.5rem;
+    }
+
+    .upload-area button {
+      padding: 12px 32px;
+      font-size: 1rem;
+    }
+
+    .upload-area input[type="file"] {
+      display: none;
+    }
+
+    /* Script library */
+    .script-library {
+      margin-top: 1.5rem;
+      width: 100%;
+    }
+
+    .script-library h3 {
+      color: #666;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+    }
+
+    .script-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-sm);
+    }
+
+    .script-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px var(--spacing-md);
+      background: rgba(65, 105, 225, 0.08);
+      border: 1px solid rgba(65, 105, 225, 0.25);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .script-item:hover {
+      background: rgba(65, 105, 225, 0.15);
+      border-color: rgba(65, 105, 225, 0.5);
+    }
+
+    .script-item-info {
+      flex: 1;
+    }
+
+    .script-item-title {
+      color: var(--color-text);
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+
+    .script-item-meta {
+      color: #666;
+      font-size: 0.8rem;
+    }
+
+    .no-scripts {
+      color: #555;
+      font-size: 0.9rem;
+      text-align: center;
+      padding: var(--spacing-lg);
+    }
+  </style>
+</head>
+<body>
+  <!-- Scripts Modal -->
+  <div class="modal-overlay" id="scriptsModal">
+    <div class="modal-content">
+      <button class="btn-3d modal-close" id="modalClose">&times;</button>
+      <h1 class="modal-title">Scripts</h1>
+      <p class="modal-subtitle">Load or manage your scripts</p>
+
+      <div class="upload-area" id="uploadArea">
+        <h2>Load new script</h2>
+        <p>Drag & drop a JSON file or click to browse</p>
+        <button type="button" class="btn-3d" id="browseBtn">Choose File</button>
+        <input type="file" id="fileInput" accept=".json,application/json">
+      </div>
+
+      <div class="script-library" id="scriptLibrary">
+        <h3>Your Scripts</h3>
+        <div class="script-list" id="scriptList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls Bar -->
+  <div class="controls-trigger"></div>
+  <div class="controls">
+    <div class="mode-toggle">
+      <button class="btn-3d" id="scrollMode">Scroll</button>
+      <button class="btn-3d active" id="autoMode">Auto</button>
+      <button class="btn-3d" id="staticMode">Static</button>
+    </div>
+
+    <label>
+      Speed:
+      <input type="range" id="speedSlider" min="0" max="100" value="50">
+      <span class="speed-display" id="speedDisplay">50</span>
+    </label>
+
+    <button class="btn-3d" id="playPause">Play</button>
+    <button class="btn-3d" id="reset">Reset</button>
+
+    <div class="font-size-control">
+      <button class="btn-3d btn-3d--yellow btn-3d--circle font-btn" id="fontDecrease">A-</button>
+      <button class="btn-3d btn-3d--yellow btn-3d--circle font-btn" id="fontIncrease">A+</button>
+    </div>
+
+    <label><input type="checkbox" id="mirrorMode"> Mirror</label>
+    <label><input type="checkbox" id="iPadMode"> iPad mode</label>
+    <label><input type="checkbox" id="showGestures"> Gestures</label>
+    <label><input type="checkbox" id="showNotes"> Show notes</label>
+
+    <button class="btn-3d" id="sidebarToggle">?</button>
+    <button class="btn-3d" id="scriptsBtn">Scripts</button>
+  </div>
+
+  <!-- Main Content -->
+  <div class="content" id="content"></div>
+
+  <!-- Sidebar Panel -->
+  <div class="sidebar-panel" id="sidebarPanel">
+    <div class="sidebar-toggle">
+      <button id="tabControls" class="active">Controls</button>
+      <button id="tabLegend">Legend</button>
+    </div>
+    <div class="sidebar-content">
+      <div class="sidebar-section active" id="sectionControls">
+        <h3>Keyboard Shortcuts</h3>
+        <div class="shortcuts-list" id="shortcutsList"></div>
+      </div>
+      <div class="sidebar-section" id="sectionLegend">
+        <h3>Notation Reference</h3>
+        <div id="legendContent"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <script>
+    /**
+     * Otocue - Teleprompter Application
+     * @description A performance-focused teleprompter with script notation support
+     */
+    (function() {
+      'use strict';
+
+      // ========== CONFIGURATION ==========
+      const CONFIG = {
+        storage: {
+          scriptsKey: 'otocue_scripts'
+        },
+        timing: {
+          minDisplayMs: 1500,
+          maxDisplayMs: 30000,
+          frameInterval: 16
+        },
+        fontSize: {
+          min: 1,
+          max: 5,
+          default: 2.2,
+          step: 0.2
+        },
+        speed: {
+          min: 0,
+          max: 100,
+          default: 50
+        }
+      };
+
+      // ========== KEYBOARD SHORTCUTS DATA ==========
+      const SHORTCUTS = [
+        { keys: ['Space'], desc: 'Play / Pause' },
+        { keys: ['↑'], desc: 'Previous segment' },
+        { keys: ['↓'], desc: 'Next segment' },
+        { keys: ['←'], desc: 'Decrease speed' },
+        { keys: ['→'], desc: 'Increase speed' },
+        { keys: ['R'], desc: 'Reset to start' },
+        { keys: ['L'], desc: 'Toggle panel' },
+        { keys: ['G'], desc: 'Toggle gestures' }
+      ];
+
+      // ========== LEGEND DATA ==========
+      const LEGEND = {
+        pauses: [
+          { notation: '•', preview: '<span class="pause pause-short"></span>', desc: 'Short breath' },
+          { notation: '• • •', preview: '<span class="pause pause-long" style="width:30px;height:30px;margin:0;"></span>', desc: 'Long pause (breathing)' },
+          { notation: '//', preview: '<span style="color:#444;">— — —</span>', desc: 'Silence / beat' }
+        ],
+        emphasis: [
+          { notation: '**word**', preview: '<span class="emphasis-strong">strong</span>', desc: 'Strong emphasis + glow' },
+          { notation: '_word_', preview: '<span class="emphasis-soft">soft</span>', desc: 'Soft / understated' },
+          { notation: '&lt;b&gt;', preview: '<b>bold</b>', desc: 'Legacy bold' },
+          { notation: '&lt;em&gt;', preview: '<em style="opacity:0.7;">italic</em>', desc: 'Legacy soft' }
+        ],
+        speed: [
+          { notation: '&lt;&lt;text&gt;&gt;', preview: '<span class="speed-slow">slow down</span>', desc: 'Slower delivery' },
+          { notation: '&gt;&gt;text&lt;&lt;', preview: '<span class="speed-fast">speed up</span>', desc: 'Faster delivery' }
+        ],
+        pitch: [
+          { notation: '^word^', preview: '<span class="pitch-up">rising?</span>', desc: 'Pitch up / question' },
+          { notation: ',word,', preview: '<span class="pitch-down">falling.</span>', desc: 'Pitch down / final' }
+        ],
+        volume: [
+          { notation: 'WORD', preview: '<span class="volume-loud">LOUD</span>', desc: 'Louder / punchy' },
+          { notation: '~word~', preview: '<span class="volume-whisper">whisper</span>', desc: 'Whisper / intimate' }
+        ],
+        styles: [
+          { notation: '{excited:}', preview: '<span class="style-excited">excited</span>', desc: 'High energy' },
+          { notation: '{cheerful:}', preview: '<span class="style-cheerful">cheerful</span>', desc: 'Happy, upbeat' },
+          { notation: '{sad:}', preview: '<span class="style-sad">sad</span>', desc: 'Melancholy' },
+          { notation: '{hopeful:}', preview: '<span class="style-hopeful">hopeful</span>', desc: 'Optimistic' },
+          { notation: '{empathetic:}', preview: '<span class="style-empathetic">empathetic</span>', desc: 'Understanding' },
+          { notation: '{calm:}', preview: '<span class="style-calm">calm</span>', desc: 'Relaxed, soothing' },
+          { notation: '{sad,0.5:}', preview: '<span class="style-sad" style="opacity:0.7">subtle sad</span>', desc: 'Intensity 0.5-2' }
+        ],
+        format: [
+          { notation: '🎥', preview: '<span style="color:#fff;">On-camera</span>', desc: 'Direct to camera' },
+          { notation: '🎞️', preview: '<span style="color:#ffd700;">B-roll</span>', desc: 'Voiceover' }
+        ],
+        gestures: [
+          { notation: 'palm-up', img: 'gestures/palm-up.svg', desc: 'Honesty, welcoming' },
+          { notation: 'palm-down', img: 'gestures/palm-down.svg', desc: 'Calming, authority' },
+          { notation: 'open-hands', img: 'gestures/open-hands.svg', desc: 'Trust, openness' },
+          { notation: 'measure-loaf', img: 'gestures/measure-loaf.svg', desc: 'Showing scope' },
+          { notation: 'pinching', img: 'gestures/pinching.svg', desc: 'Precision, details' },
+          { notation: 'index-up', img: 'gestures/index-up.svg', desc: 'Emphasis (Clinton)' },
+          { notation: 'countdown-1', img: 'gestures/countdown-1.svg', desc: 'First item' },
+          { notation: 'compare', img: 'gestures/compare.svg', desc: 'This vs that' },
+          { notation: 'heart-touch', img: 'gestures/heart-touch.svg', desc: 'Sincerity' },
+          { notation: 'arms-open', img: 'gestures/arms-open.svg', desc: 'Big moments' },
+          { notation: 'arms-sides', img: 'gestures/arms-sides.svg', desc: 'Neutral, pause' },
+          { notation: 'arms-crossed', img: 'gestures/arms-crossed.svg', desc: 'AVOID', danger: true }
+        ]
+      };
+
+      // ========== STATE ==========
+      const state = {
+        scriptData: null,
+        segments: [],
+        currentIndex: 0,
+        isPlaying: false,
+        isStaticMode: false,
+        isAutoMode: true,
+        iPadMode: false,
+        scrollSpeed: CONFIG.speed.default,
+        fontSize: CONFIG.fontSize.default,
+        showGestures: false,
+        gestureData: null,
+        scrollInterval: null,
+        autoTimeout: null,
+        currentAudio: null,
+        currentAudioBtn: null
+      };
+
+      // ========== DOM ELEMENTS ==========
+      const elements = {};
+
+      function cacheElements() {
+        elements.content = document.getElementById('content');
+        elements.progressBar = document.getElementById('progressBar');
+        elements.playPause = document.getElementById('playPause');
+        elements.speedSlider = document.getElementById('speedSlider');
+        elements.speedDisplay = document.getElementById('speedDisplay');
+        elements.scrollMode = document.getElementById('scrollMode');
+        elements.autoMode = document.getElementById('autoMode');
+        elements.staticMode = document.getElementById('staticMode');
+        elements.scriptsModal = document.getElementById('scriptsModal');
+        elements.scriptList = document.getElementById('scriptList');
+        elements.uploadArea = document.getElementById('uploadArea');
+        elements.fileInput = document.getElementById('fileInput');
+        elements.sidebarPanel = document.getElementById('sidebarPanel');
+        elements.sidebarToggle = document.getElementById('sidebarToggle');
+        elements.shortcutsList = document.getElementById('shortcutsList');
+        elements.legendContent = document.getElementById('legendContent');
+      }
+
+      // ========== GESTURE SYSTEM ==========
+      async function loadGestureData() {
+        try {
+          const response = await fetch('gestures/gestures.json');
+          if (response.ok) {
+            state.gestureData = await response.json();
+            console.log('Gesture data loaded:', Object.keys(state.gestureData.gestures).length, 'gestures');
+          }
+        } catch (e) {
+          console.warn('Could not load gesture data:', e.message);
+        }
+      }
+
+      function getGestureInfo(gestureId) {
+        if (!state.gestureData?.gestures?.[gestureId]) return null;
+        return state.gestureData.gestures[gestureId];
+      }
+
+      function renderGestureBadge(gestureId) {
+        const info = getGestureInfo(gestureId);
+        if (!info) return '';
+
+        const avoidClass = info.avoid ? 'avoid' : '';
+        const visibleClass = state.showGestures ? 'visible' : '';
+
+        return `
+          <div class="gesture-badge ${avoidClass} ${visibleClass}" data-gesture="${gestureId}">
+            <img src="gestures/${info.file}" alt="${info.name}">
+            <span class="gesture-tooltip">${info.name}</span>
+          </div>
+        `;
+      }
+
+      function toggleGestures(show) {
+        state.showGestures = show;
+        document.querySelectorAll('.gesture-badge').forEach(el => {
+          el.classList.toggle('visible', show);
+        });
+        document.getElementById('showGestures').checked = show;
+      }
+
+      // ========== NOTATION PARSER ==========
+      function parseNotation(text) {
+        let result = text;
+
+        // Style/emotion notation
+        result = result.replace(/\{(\w+),[\d.]+:\s*([^}]+)\}/g, '<span class="style-tag style-$1">$2</span>');
+        result = result.replace(/\{(\w+):\s*([^}]+)\}/g, '<span class="style-tag style-$1">$2</span>');
+
+        // Speed notation
+        result = result.replace(/&lt;&lt;([\s\S]*?)&gt;&gt;/g, '<span class="speed-slow">$1</span>');
+        result = result.replace(/<<([\s\S]*?)>>/g, '<span class="speed-slow">$1</span>');
+        result = result.replace(/&gt;&gt;([\s\S]*?)&lt;&lt;/g, '<span class="speed-fast">$1</span>');
+        result = result.replace(/>>([\s\S]*?)<</g, '<span class="speed-fast">$1</span>');
+
+        // Silence/beat markers
+        result = result.replace(/^\/\/$/g, '<span class="pause-silence"></span>');
+
+        // Pauses
+        result = result.replace(/• • •/g, '<span class="pause pause-long"></span><br>');
+        result = result.replace(/•/g, '<span class="pause pause-short"></span><br>');
+
+        // Emphasis
+        result = result.replace(/\*\*([^*]+)\*\*/g, '<span class="emphasis-strong">$1</span>');
+        result = result.replace(/(?<![a-zA-Z])_([^_]+)_(?![a-zA-Z])/g, '<span class="emphasis-soft">$1</span>');
+
+        // Pitch
+        result = result.replace(/\^([^^]+)\^/g, '<span class="pitch-up">$1</span>');
+        result = result.replace(/,([^,\s][^,]*[^,\s]),/g, '<span class="pitch-down">$1</span>');
+
+        // Volume
+        result = result.replace(/~([^~]+)~/g, '<span class="volume-whisper">$1</span>');
+        result = result.replace(/(?<![<\/\w])(\b[A-Z]{2,}\b)(?![^<]*>)/g, '<span class="volume-loud">$1</span>');
+
+        return result;
+      }
+
+      // ========== CONTENT RENDERING ==========
+      function renderContent() {
+        state.segments = [];
+
+        const titleHtml = `<h1 class="script-title">${state.scriptData.title}</h1>`;
+        const chaptersHtml = state.scriptData.chapters.map(chapter => renderChapter(chapter)).join('');
+
+        elements.content.innerHTML = titleHtml + chaptersHtml;
+        attachSegmentListeners();
+        highlightCurrent();
+      }
+
+      function renderChapter(chapter) {
+        const segmentsHtml = chapter.segments.map(segment => {
+          const globalIndex = state.segments.length;
+          state.segments.push(segment);
+          return renderSegment(segment, globalIndex, chapter.chapter);
+        }).join('');
+
+        return `
+          <div class="chapter">
+            <h2 class="chapter-title">${chapter.chapter}</h2>
+            ${segmentsHtml}
+          </div>
+        `;
+      }
+
+      function renderSegment(segment, index, chapterName) {
+        const line = parseNotation(segment.line);
+        const notes = segment.notes ? `<div class="notes">${segment.notes}</div>` : '';
+        const gestureBadge = segment.gesture ? renderGestureBadge(segment.gesture) : '';
+        const audioNum = index + 1;
+        const audioFile = `audio/${String(audioNum).padStart(3, '0')}_${chapterName.replace(/ /g, '_')}.mp3`;
+
+        return `
+          <div class="segment ${segment.format}" data-index="${index}">
+            ${gestureBadge}
+            ${line}
+            ${notes}
+            <button class="listen-btn" data-audio="${audioFile}">▶ Listen</button>
+          </div>
+        `;
+      }
+
+      function attachSegmentListeners() {
+        document.querySelectorAll('.segment').forEach(el => {
+          el.addEventListener('click', () => goToSegment(parseInt(el.dataset.index)));
+        });
+
+        document.querySelectorAll('.listen-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            playAudio(btn.dataset.audio, btn);
+          });
+        });
+      }
+
+      // ========== AUDIO PLAYER ==========
+      function playAudio(audioFile, btn) {
+        if (state.currentAudio) {
+          state.currentAudio.pause();
+          state.currentAudio = null;
+          if (state.currentAudioBtn) {
+            state.currentAudioBtn.classList.remove('playing');
+            state.currentAudioBtn.textContent = '▶ Listen';
+          }
+          if (state.currentAudioBtn === btn) {
+            state.currentAudioBtn = null;
+            return;
+          }
+        }
+
+        state.currentAudio = new Audio(audioFile);
+        state.currentAudioBtn = btn;
+
+        state.currentAudio.onplay = () => {
+          btn.classList.remove('unavailable');
+          btn.classList.add('playing');
+          btn.textContent = '⏹ Stop';
+        };
+
+        state.currentAudio.onended = () => {
+          btn.classList.remove('playing');
+          btn.textContent = '▶ Listen';
+          state.currentAudio = null;
+          state.currentAudioBtn = null;
+        };
+
+        state.currentAudio.onerror = () => {
+          btn.classList.add('unavailable');
+          btn.textContent = '▶ No audio';
+          state.currentAudio = null;
+          state.currentAudioBtn = null;
+        };
+
+        state.currentAudio.play().catch(() => {
+          btn.classList.add('unavailable');
+          btn.textContent = '▶ No audio';
+        });
+      }
+
+      // ========== NAVIGATION ==========
+      function highlightCurrent() {
+        document.querySelectorAll('.segment').forEach((el, index) => {
+          el.classList.remove('current', 'past');
+          if (index === state.currentIndex) {
+            el.classList.add('current');
+          } else if (index < state.currentIndex) {
+            el.classList.add('past');
+          }
+        });
+      }
+
+      function goToSegment(index) {
+        state.currentIndex = Math.max(0, Math.min(index, state.segments.length - 1));
+        highlightCurrent();
+        updateProgress();
+
+        const el = document.querySelector(`[data-index="${state.currentIndex}"]`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'instant', block: 'center' });
+        }
+      }
+
+      function nextSegment() {
+        if (state.currentIndex < state.segments.length - 1) {
+          goToSegment(state.currentIndex + 1);
+        } else {
+          stopScrolling();
+        }
+      }
+
+      function prevSegment() {
+        goToSegment(state.currentIndex - 1);
+      }
+
+      function updateProgress() {
+        const progress = ((state.currentIndex + 1) / state.segments.length) * 100;
+        elements.progressBar.style.width = `${progress}%`;
+      }
+
+      // ========== PLAYBACK CONTROL ==========
+      function startScrolling() {
+        if (state.isStaticMode) return;
+
+        state.isPlaying = true;
+        elements.playPause.classList.add('active');
+
+        const pixelsPerFrame = state.scrollSpeed / 10;
+
+        if (state.scrollInterval) clearInterval(state.scrollInterval);
+
+        state.scrollInterval = setInterval(() => {
+          elements.content.scrollTop += pixelsPerFrame;
+
+          const viewportCenter = elements.content.scrollTop + elements.content.clientHeight / 2;
+          document.querySelectorAll('.segment').forEach((el, index) => {
+            const rect = el.getBoundingClientRect();
+            const elCenter = elements.content.scrollTop + rect.top + rect.height / 2;
+            if (Math.abs(viewportCenter - elCenter) < rect.height / 2) {
+              if (state.currentIndex !== index) {
+                state.currentIndex = index;
+                highlightCurrent();
+                updateProgress();
+              }
+            }
+          });
+
+          if (elements.content.scrollTop >= elements.content.scrollHeight - elements.content.clientHeight) {
+            stopScrolling();
+          }
+        }, CONFIG.timing.frameInterval);
+      }
+
+      function stopScrolling() {
+        state.isPlaying = false;
+        elements.playPause.classList.remove('active');
+
+        if (state.scrollInterval) {
+          clearInterval(state.scrollInterval);
+          state.scrollInterval = null;
+        }
+        if (state.autoTimeout) {
+          clearTimeout(state.autoTimeout);
+          state.autoTimeout = null;
+        }
+      }
+
+      function countWords(text) {
+        const stripped = text.replace(/<[^>]*>/g, ' ').replace(/[•]/g, ' ');
+        return stripped.split(/\s+/).filter(w => w.length > 0).length;
+      }
+
+      function calculateDisplayTime(segment) {
+        const wordCount = countWords(segment.line);
+        const wordsPerSecond = 1 + (state.scrollSpeed / 100) * 5.36;
+        const timeMs = (wordCount / wordsPerSecond) * 1000;
+        return Math.max(CONFIG.timing.minDisplayMs, Math.min(CONFIG.timing.maxDisplayMs, timeMs));
+      }
+
+      function startAutoAdvance() {
+        if (!state.isAutoMode) return;
+
+        state.isPlaying = true;
+        elements.playPause.classList.add('active');
+
+        function advanceNext() {
+          if (!state.isPlaying || !state.isAutoMode) return;
+
+          if (state.currentIndex < state.segments.length - 1) {
+            const displayTime = calculateDisplayTime(state.segments[state.currentIndex]);
+            state.autoTimeout = setTimeout(() => {
+              nextSegment();
+              advanceNext();
+            }, displayTime);
+          } else {
+            stopScrolling();
+          }
+        }
+
+        advanceNext();
+      }
+
+      function togglePlay() {
+        if (state.isStaticMode) {
+          nextSegment();
+        } else if (state.isAutoMode) {
+          state.isPlaying ? stopScrolling() : startAutoAdvance();
+        } else {
+          state.isPlaying ? stopScrolling() : startScrolling();
+        }
+      }
+
+      function reset() {
+        stopScrolling();
+        state.currentIndex = 0;
+        elements.content.scrollTop = 0;
+        highlightCurrent();
+        updateProgress();
+      }
+
+      // ========== MODE SWITCHING ==========
+      function clearModeButtons() {
+        elements.scrollMode.classList.remove('active');
+        elements.autoMode.classList.remove('active');
+        elements.staticMode.classList.remove('active');
+      }
+
+      function setScrollMode() {
+        stopScrolling();
+        state.isStaticMode = false;
+        state.isAutoMode = false;
+        document.body.classList.remove('static-mode');
+        elements.playPause.textContent = 'Play';
+        clearModeButtons();
+        elements.scrollMode.classList.add('active');
+      }
+
+      function setAutoMode() {
+        stopScrolling();
+        state.isStaticMode = false;
+        state.isAutoMode = true;
+        document.body.classList.remove('static-mode');
+        elements.playPause.textContent = 'Play';
+        clearModeButtons();
+        elements.autoMode.classList.add('active');
+        goToSegment(state.currentIndex);
+      }
+
+      function setStaticMode() {
+        stopScrolling();
+        state.isStaticMode = true;
+        state.isAutoMode = false;
+        document.body.classList.add('static-mode');
+        elements.playPause.textContent = '—';
+        clearModeButtons();
+        elements.staticMode.classList.add('active');
+        goToSegment(state.currentIndex);
+      }
+
+      function updateSpeed(value) {
+        state.scrollSpeed = value;
+        elements.speedDisplay.textContent = value;
+        elements.speedSlider.value = value;
+        if (state.isPlaying && !state.isAutoMode) {
+          stopScrolling();
+          startScrolling();
+        }
+      }
+
+      function updateFontSize(delta) {
+        state.fontSize = Math.max(CONFIG.fontSize.min, Math.min(CONFIG.fontSize.max, state.fontSize + delta));
+        document.querySelectorAll('.segment').forEach(el => {
+          el.style.fontSize = `${state.fontSize}rem`;
+        });
+      }
+
+      // ========== STORAGE ==========
+      function generateId() {
+        return Date.now().toString(36) + Math.random().toString(36).substr(2);
+      }
+
+      function getAllScripts() {
+        try {
+          const stored = localStorage.getItem(CONFIG.storage.scriptsKey);
+          return stored ? JSON.parse(stored) : {};
+        } catch (e) {
+          console.error('Failed to load scripts:', e);
+          return {};
+        }
+      }
+
+      function saveScript(id, data) {
+        try {
+          const scripts = getAllScripts();
+          scripts[id] = { ...data, _id: id, _savedAt: Date.now() };
+          localStorage.setItem(CONFIG.storage.scriptsKey, JSON.stringify(scripts));
+          return id;
+        } catch (e) {
+          console.error('Failed to save script:', e);
+          return null;
+        }
+      }
+
+      function deleteScript(id) {
+        const scripts = getAllScripts();
+        delete scripts[id];
+        localStorage.setItem(CONFIG.storage.scriptsKey, JSON.stringify(scripts));
+      }
+
+      function countSegments(data) {
+        return data.chapters?.reduce((acc, ch) => acc + (ch.segments?.length || 0), 0) || 0;
+      }
+
+      function getSortedScripts() {
+        const scripts = getAllScripts();
+        return Object.entries(scripts).sort((a, b) => (b[1]._savedAt || 0) - (a[1]._savedAt || 0));
+      }
+
+      function downloadScriptData(data) {
+        const exportData = { ...data };
+        delete exportData._id;
+        delete exportData._savedAt;
+
+        const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = (data.title || 'script').replace(/[^a-z0-9]/gi, '-').toLowerCase() + '.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+
+      // ========== SCRIPT LIST ==========
+      function renderScriptList() {
+        const entries = getSortedScripts();
+
+        if (entries.length === 0) {
+          elements.scriptList.innerHTML = '<div class="no-scripts">No saved scripts yet</div>';
+          return;
+        }
+
+        elements.scriptList.innerHTML = entries.map(([id, script]) => {
+          const chCount = script.chapters?.length || 0;
+          const segCount = countSegments(script);
+          return `
+            <div class="script-item" data-id="${id}">
+              <div class="script-item-info">
+                <div class="script-item-title">${script.title || 'Untitled Script'}</div>
+                <div class="script-item-meta">${chCount} chapter${chCount !== 1 ? 's' : ''}, ${segCount} segment${segCount !== 1 ? 's' : ''}</div>
+              </div>
+              <button class="btn-3d btn-3d--sm btn-3d--success script-item-download" data-id="${id}" title="Download">↓</button>
+              <button class="btn-3d btn-3d--sm btn-3d--danger script-item-delete" data-id="${id}" title="Delete">&times;</button>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // ========== MODAL ==========
+      function showModal() {
+        renderScriptList();
+        elements.scriptsModal.classList.remove('hidden');
+      }
+
+      function hideModal() {
+        elements.scriptsModal.classList.add('hidden');
+      }
+
+      function handleFile(file) {
+        if (!file || !file.name.endsWith('.json')) {
+          alert('Please upload a JSON file');
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            const data = JSON.parse(e.target.result);
+
+            if (!data.chapters || !Array.isArray(data.chapters)) {
+              alert('Invalid script format. Expected { "title": "...", "chapters": [...] }');
+              return;
+            }
+
+            const id = generateId();
+            saveScript(id, data);
+            state.scriptData = data;
+            hideModal();
+            loadScript();
+          } catch (err) {
+            alert('Failed to parse JSON: ' + err.message);
+          }
+        };
+        reader.readAsText(file);
+      }
+
+      function loadScript() {
+        renderContent();
+        updateProgress();
+      }
+
+      // ========== SIDEBAR ==========
+      function renderShortcuts() {
+        elements.shortcutsList.innerHTML = SHORTCUTS.map(s => `
+          <div class="shortcut-row">
+            <span class="shortcut-desc">${s.desc}</span>
+            <div class="shortcut-keys">${s.keys.map(k => `<kbd>${k}</kbd>`).join('')}</div>
+          </div>
+        `).join('');
+      }
+
+      function renderLegend() {
+        let html = '';
+
+        const sections = [
+          { title: 'Pauses', items: LEGEND.pauses },
+          { title: 'Emphasis', items: LEGEND.emphasis },
+          { title: 'Speed', items: LEGEND.speed },
+          { title: 'Pitch', items: LEGEND.pitch },
+          { title: 'Volume', items: LEGEND.volume },
+          { title: 'Styles (DavisNeural)', items: LEGEND.styles },
+          { title: 'Format', items: LEGEND.format }
+        ];
+
+        sections.forEach(section => {
+          html += `<h4>${section.title}</h4>`;
+          section.items.forEach(item => {
+            html += `
+              <div class="legend-row">
+                <span class="legend-notation">${item.notation}</span>
+                <span class="legend-preview">${item.preview}</span>
+                <span class="legend-desc">${item.desc}</span>
+              </div>
+            `;
+          });
+        });
+
+        html += '<h4>Gestures (press G)</h4>';
+        LEGEND.gestures.forEach(item => {
+          const style = item.danger ? 'style="color:#f44;"' : '';
+          html += `
+            <div class="legend-row">
+              <span class="legend-notation" ${style}>${item.notation}</span>
+              <img src="${item.img}" style="width:28px;height:28px;">
+              <span class="legend-desc">${item.desc}</span>
+            </div>
+          `;
+        });
+
+        elements.legendContent.innerHTML = html;
+      }
+
+      function toggleSidebar() {
+        elements.sidebarPanel.classList.toggle('visible');
+        elements.sidebarToggle.classList.toggle('active');
+      }
+
+      function switchTab(tab) {
+        const tabControls = document.getElementById('tabControls');
+        const tabLegend = document.getElementById('tabLegend');
+        const sectionControls = document.getElementById('sectionControls');
+        const sectionLegend = document.getElementById('sectionLegend');
+
+        if (tab === 'controls') {
+          tabControls.classList.add('active');
+          tabLegend.classList.remove('active');
+          sectionControls.classList.add('active');
+          sectionLegend.classList.remove('active');
+        } else {
+          tabLegend.classList.add('active');
+          tabControls.classList.remove('active');
+          sectionLegend.classList.add('active');
+          sectionControls.classList.remove('active');
+        }
+      }
+
+      // ========== EVENT LISTENERS ==========
+      function attachEventListeners() {
+        // Playback controls
+        elements.playPause.addEventListener('click', togglePlay);
+        document.getElementById('reset').addEventListener('click', reset);
+        elements.scrollMode.addEventListener('click', setScrollMode);
+        elements.autoMode.addEventListener('click', setAutoMode);
+        elements.staticMode.addEventListener('click', setStaticMode);
+
+        elements.speedSlider.addEventListener('input', (e) => updateSpeed(parseInt(e.target.value)));
+
+        // Checkboxes
+        document.getElementById('showNotes').addEventListener('change', (e) => {
+          document.querySelectorAll('.notes').forEach(el => {
+            el.style.display = e.target.checked ? 'block' : 'none';
+          });
+        });
+
+        document.getElementById('iPadMode').addEventListener('change', (e) => {
+          state.iPadMode = e.target.checked;
+        });
+
+        document.getElementById('mirrorMode').addEventListener('change', (e) => {
+          document.body.classList.toggle('mirror-mode', e.target.checked);
+        });
+
+        document.getElementById('showGestures').addEventListener('change', (e) => {
+          toggleGestures(e.target.checked);
+        });
+
+        // iPad mode click
+        elements.content.addEventListener('click', (e) => {
+          if (!state.iPadMode) return;
+          if (e.target.closest('.listen-btn')) return;
+          nextSegment();
+        });
+
+        // Font size
+        document.getElementById('fontIncrease').addEventListener('click', () => updateFontSize(CONFIG.fontSize.step));
+        document.getElementById('fontDecrease').addEventListener('click', () => updateFontSize(-CONFIG.fontSize.step));
+
+        // Sidebar
+        elements.sidebarToggle.addEventListener('click', toggleSidebar);
+        document.getElementById('tabControls').addEventListener('click', () => switchTab('controls'));
+        document.getElementById('tabLegend').addEventListener('click', () => switchTab('legend'));
+
+        // Close sidebar on outside click
+        document.addEventListener('click', (e) => {
+          if (elements.sidebarPanel.classList.contains('visible') &&
+              !elements.sidebarPanel.contains(e.target) &&
+              !elements.sidebarToggle.contains(e.target)) {
+            elements.sidebarPanel.classList.remove('visible');
+            elements.sidebarToggle.classList.remove('active');
+          }
+        });
+
+        // Modal
+        document.getElementById('scriptsBtn').addEventListener('click', () => {
+          stopScrolling();
+          showModal();
+        });
+
+        document.getElementById('modalClose').addEventListener('click', hideModal);
+
+        elements.scriptsModal.addEventListener('click', (e) => {
+          if (e.target === elements.scriptsModal) hideModal();
+        });
+
+        // File upload
+        document.getElementById('browseBtn').addEventListener('click', () => elements.fileInput.click());
+        elements.uploadArea.addEventListener('click', (e) => {
+          if (e.target !== document.getElementById('browseBtn')) elements.fileInput.click();
+        });
+
+        elements.fileInput.addEventListener('change', (e) => {
+          if (e.target.files.length > 0) handleFile(e.target.files[0]);
+        });
+
+        elements.uploadArea.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          elements.uploadArea.classList.add('dragover');
+        });
+
+        elements.uploadArea.addEventListener('dragleave', () => {
+          elements.uploadArea.classList.remove('dragover');
+        });
+
+        elements.uploadArea.addEventListener('drop', (e) => {
+          e.preventDefault();
+          elements.uploadArea.classList.remove('dragover');
+          if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
+        });
+
+        // Script list delegation
+        elements.scriptList.addEventListener('click', (e) => {
+          const item = e.target.closest('.script-item');
+          if (!item) return;
+
+          const id = item.dataset.id;
+          const scripts = getAllScripts();
+          const script = scripts[id];
+          if (!script) return;
+
+          if (e.target.classList.contains('script-item-delete')) {
+            if (confirm(`Delete "${script.title || 'this script'}"?`)) {
+              deleteScript(id);
+              renderScriptList();
+            }
+          } else if (e.target.classList.contains('script-item-download')) {
+            downloadScriptData(script);
+          } else {
+            state.scriptData = script;
+            hideModal();
+            loadScript();
+          }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+          if (e.target.tagName === 'INPUT') return;
+
+          switch (e.key) {
+            case ' ':
+              e.preventDefault();
+              togglePlay();
+              break;
+            case 'ArrowUp':
+              e.preventDefault();
+              prevSegment();
+              break;
+            case 'ArrowDown':
+              e.preventDefault();
+              nextSegment();
+              break;
+            case 'ArrowRight':
+              e.preventDefault();
+              updateSpeed(Math.min(CONFIG.speed.max, state.scrollSpeed + 5));
+              break;
+            case 'ArrowLeft':
+              e.preventDefault();
+              updateSpeed(Math.max(CONFIG.speed.min, state.scrollSpeed - 5));
+              break;
+            case 'r':
+            case 'R':
+              reset();
+              break;
+            case 'l':
+            case 'L':
+              toggleSidebar();
+              break;
+            case 'g':
+            case 'G':
+              toggleGestures(!state.showGestures);
+              break;
+          }
+        });
+      }
+
+      // ========== INITIALIZATION ==========
+      async function init() {
+        cacheElements();
+        await loadGestureData();
+        renderShortcuts();
+        renderLegend();
+        attachEventListeners();
+
+        const entries = getSortedScripts();
+        if (entries.length > 0) {
+          state.scriptData = entries[0][1];
+          hideModal();
+          loadScript();
+        } else {
+          showModal();
+        }
+      }
+
+      // Start the application
+      init();
+    })();
+  </script>
+</body>
+</html>
