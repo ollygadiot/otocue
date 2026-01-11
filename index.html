@@ -262,15 +262,64 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 20px;
+      height: 40px;
       z-index: 99;
       -webkit-app-region: no-drag;
+      cursor: pointer;
     }
 
     .controls-trigger:hover + .controls,
     .controls:hover,
     .controls.visible {
       transform: translateY(0);
+    }
+
+    /* Floating menu button for touch devices */
+    .menu-toggle {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      width: 36px;
+      height: 36px;
+      background: rgba(30, 30, 30, 0.9);
+      border: 1px solid var(--color-border-dim);
+      border-radius: var(--radius-md);
+      color: var(--color-text-dim);
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 101;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition-normal);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .menu-toggle:hover,
+    .menu-toggle:active {
+      background: rgba(40, 40, 40, 0.95);
+      color: var(--color-text);
+      border-color: var(--color-border);
+    }
+
+    .menu-toggle.active {
+      background: var(--color-accent-bg);
+      border-color: var(--color-accent-border);
+      color: var(--color-accent);
+    }
+
+    /* Show floating button on touch devices */
+    @media (hover: none) and (pointer: coarse) {
+      .menu-toggle {
+        display: flex;
+      }
+    }
+
+    /* Hide floating button when controls are visible or playing */
+    .controls.visible ~ .menu-toggle,
+    body.playing .menu-toggle {
+      opacity: 0;
+      pointer-events: none;
     }
 
     .controls label {
@@ -1162,6 +1211,9 @@
     <button class="btn-3d" id="scriptsBtn">Scripts</button>
   </div>
 
+  <!-- Floating menu button for touch devices -->
+  <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+
   <!-- Main Content -->
   <div class="content" id="content"></div>
 
@@ -1322,6 +1374,9 @@
         elements.sidebarToggle = document.getElementById('sidebarToggle');
         elements.shortcutsList = document.getElementById('shortcutsList');
         elements.legendContent = document.getElementById('legendContent');
+        elements.controls = document.querySelector('.controls');
+        elements.controlsTrigger = document.querySelector('.controls-trigger');
+        elements.menuToggle = document.getElementById('menuToggle');
       }
 
       // ========== GESTURE SYSTEM ==========
@@ -1548,6 +1603,7 @@
 
         state.isPlaying = true;
         elements.playPause.classList.add('active');
+        document.body.classList.add('playing');
 
         let lastTime = performance.now();
 
@@ -1589,6 +1645,7 @@
       function stopScrolling() {
         state.isPlaying = false;
         elements.playPause.classList.remove('active');
+        document.body.classList.remove('playing');
 
         if (state.scrollAnimationId) {
           cancelAnimationFrame(state.scrollAnimationId);
@@ -1617,6 +1674,7 @@
 
         state.isPlaying = true;
         elements.playPause.classList.add('active');
+        document.body.classList.add('playing');
 
         function advanceNext() {
           if (!state.isPlaying || !state.isAutoMode) return;
@@ -1963,6 +2021,35 @@
               !elements.sidebarToggle.contains(e.target)) {
             elements.sidebarPanel.classList.remove('visible');
             elements.sidebarToggle.classList.remove('active');
+          }
+        });
+
+        // Controls menu toggle (for touch devices)
+        function toggleControls() {
+          elements.controls.classList.toggle('visible');
+          elements.menuToggle.classList.toggle('active');
+        }
+
+        function hideControls() {
+          elements.controls.classList.remove('visible');
+          elements.menuToggle.classList.remove('active');
+        }
+
+        // Floating menu button
+        elements.menuToggle.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleControls();
+        });
+
+        // Tap trigger area to show controls
+        elements.controlsTrigger.addEventListener('click', toggleControls);
+
+        // Hide controls when tapping outside (on touch devices)
+        elements.content.addEventListener('click', (e) => {
+          if (elements.controls.classList.contains('visible') &&
+              !e.target.closest('.controls') &&
+              !e.target.closest('.menu-toggle')) {
+            hideControls();
           }
         });
 
