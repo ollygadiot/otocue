@@ -2058,6 +2058,21 @@
       }
 
       // ========== INITIALIZATION ==========
+      async function loadExampleScript() {
+        try {
+          const response = await fetch('example-script.json');
+          if (response.ok) {
+            const data = await response.json();
+            const id = generateId();
+            saveScript(id, data);
+            return data;
+          }
+        } catch (e) {
+          console.warn('Could not load example script:', e.message);
+        }
+        return null;
+      }
+
       async function init() {
         cacheElements();
         await loadGestureData();
@@ -2071,7 +2086,15 @@
           hideModal();
           loadScript();
         } else {
-          showModal();
+          // Load example script for new users
+          const exampleScript = await loadExampleScript();
+          if (exampleScript) {
+            state.scriptData = exampleScript;
+            hideModal();
+            loadScript();
+          } else {
+            showModal();
+          }
         }
       }
 

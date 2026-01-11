@@ -21,7 +21,7 @@ Once you try it, you won't go back to a blank teleprompter.
 
 ## Quick Start
 
-1. Open `otocue.html` in a web browser
+1. Open `index.html` in a web browser
 2. Upload your script JSON file (drag & drop or click to browse)
 3. Your script is saved in localStorage — it persists between sessions
 4. Use the controls at the top (hover to reveal) or keyboard shortcuts
@@ -229,7 +229,7 @@ Add a `gesture` property to any segment:
 ```bash
 cd otocue
 python3 -m http.server 8080
-# Then open http://localhost:8080/otocue.html
+# Then open http://localhost:8080/index.html
 ```
 
 ## Example Script
@@ -309,7 +309,7 @@ python generate_audio.py --preview --text "This is •a **test** with ^notation^
 
 ## Loading Scripts
 
-1. Open `otocue.html` in your browser
+1. Open `index.html` in your browser
 2. Drag & drop your JSON file onto the upload area, or click to browse
 3. Your script loads immediately and is saved to your library
 
@@ -391,7 +391,7 @@ I _never_ thought it would work. • • •But then •<<**everything** changed
 
 ```
 otocue/
-├── otocue.html           # Main application
+├── index.html           # Main application
 ├── generate_audio.py     # TTS audio generator
 ├── example-script.json   # Example script with gesture examples
 ├── NOTATION_GUIDE.md     # LLM prompt reference for script conversion
