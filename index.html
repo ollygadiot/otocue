@@ -1214,6 +1214,8 @@
       <button class="btn-3d btn-3d--yellow btn-3d--circle font-btn" id="widthIncrease">↔+</button>
     </div>
 
+    <button class="btn-3d btn-3d--sm" id="saveSettings">Save</button>
+
     <label><input type="checkbox" id="mirrorMode"> Mirror</label>
     <label><input type="checkbox" id="iPadMode"> iPad mode</label>
     <label><input type="checkbox" id="showGestures"> Gestures</label>
@@ -1261,7 +1263,8 @@
       // ========== CONFIGURATION ==========
       const CONFIG = {
         storage: {
-          scriptsKey: 'otocue_scripts'
+          scriptsKey: 'otocue_scripts',
+          settingsKey: 'otocue_settings'
         },
         timing: {
           minDisplayMs: 1500,
@@ -1275,10 +1278,10 @@
           step: 0.2
         },
         columnWidth: {
-          min: 400,
+          min: 250,
           max: 1000,
           default: 600,
-          step: 100
+          step: 50
         },
         speed: {
           min: 0,
@@ -1830,6 +1833,70 @@
         return Date.now().toString(36) + Math.random().toString(36).substr(2);
       }
 
+      function saveDisplaySettings() {
+        try {
+          const settings = {
+            fontSize: state.fontSize,
+            columnWidth: state.columnWidth,
+            scrollSpeed: state.scrollSpeed,
+            iPadMode: state.iPadMode,
+            showGestures: state.showGestures,
+            mirrorMode: document.body.classList.contains('mirror-mode'),
+            showNotes: document.getElementById('showNotes').checked
+          };
+          localStorage.setItem(CONFIG.storage.settingsKey, JSON.stringify(settings));
+          return true;
+        } catch (e) {
+          console.error('Failed to save settings:', e);
+          return false;
+        }
+      }
+
+      function loadDisplaySettings() {
+        try {
+          const stored = localStorage.getItem(CONFIG.storage.settingsKey);
+          if (stored) {
+            const settings = JSON.parse(stored);
+            if (settings.fontSize) state.fontSize = settings.fontSize;
+            if (settings.columnWidth) state.columnWidth = settings.columnWidth;
+            if (settings.scrollSpeed !== undefined) state.scrollSpeed = settings.scrollSpeed;
+            if (settings.iPadMode !== undefined) state.iPadMode = settings.iPadMode;
+            if (settings.showGestures !== undefined) state.showGestures = settings.showGestures;
+            if (settings.mirrorMode !== undefined) state.mirrorMode = settings.mirrorMode;
+            if (settings.showNotes !== undefined) state.showNotes = settings.showNotes;
+            return true;
+          }
+        } catch (e) {
+          console.error('Failed to load settings:', e);
+        }
+        return false;
+      }
+
+      function applyDisplaySettings() {
+        // Text settings
+        document.querySelectorAll('.segment').forEach(el => {
+          el.style.fontSize = `${state.fontSize}rem`;
+          el.style.maxWidth = `${state.columnWidth}px`;
+        });
+        document.querySelectorAll('.chapter, .script-title').forEach(el => {
+          el.style.maxWidth = `${state.columnWidth}px`;
+        });
+        // Speed slider
+        elements.speedSlider.value = state.scrollSpeed;
+        elements.speedDisplay.textContent = state.scrollSpeed;
+        // Checkboxes
+        document.getElementById('iPadMode').checked = state.iPadMode;
+        document.getElementById('showGestures').checked = state.showGestures;
+        document.getElementById('mirrorMode').checked = state.mirrorMode || false;
+        document.getElementById('showNotes').checked = state.showNotes || false;
+        // Apply checkbox effects
+        document.body.classList.toggle('mirror-mode', state.mirrorMode || false);
+        toggleGestures(state.showGestures);
+        document.querySelectorAll('.notes').forEach(el => {
+          el.style.display = state.showNotes ? 'block' : 'none';
+        });
+      }
+
       function getAllScripts() {
         try {
           const stored = localStorage.getItem(CONFIG.storage.scriptsKey);
@@ -1948,6 +2015,7 @@
 
       function loadScript() {
         renderContent();
+        applyDisplaySettings();
         updateProgress();
       }
 
@@ -2070,6 +2138,15 @@
         // Column width
         document.getElementById('widthIncrease').addEventListener('click', () => updateColumnWidth(CONFIG.columnWidth.step));
         document.getElementById('widthDecrease').addEventListener('click', () => updateColumnWidth(-CONFIG.columnWidth.step));
+
+        // Save settings
+        document.getElementById('saveSettings').addEventListener('click', () => {
+          if (saveDisplaySettings()) {
+            const btn = document.getElementById('saveSettings');
+            btn.textContent = 'Saved!';
+            setTimeout(() => btn.textContent = 'Save', 1500);
+          }
+        });
 
         // Sidebar
         elements.sidebarToggle.addEventListener('click', toggleSidebar);
@@ -2236,6 +2313,7 @@
       async function init() {
         cacheElements();
         await loadGestureData();
+        loadDisplaySettings();
         renderShortcuts();
         renderLegend();
         attachEventListeners();
