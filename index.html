@@ -413,10 +413,10 @@
       padding: 50vh var(--spacing-lg);
       overflow-y: auto;
       height: 100vh;
-      scroll-behavior: smooth;
       display: flex;
       flex-direction: column;
       align-items: center;
+      -webkit-overflow-scrolling: touch;
     }
 
     .chapter {
@@ -1296,7 +1296,7 @@
         fontSize: CONFIG.fontSize.default,
         showGestures: false,
         gestureData: null,
-        scrollInterval: null,
+        scrollAnimationId: null,
         autoTimeout: null,
         currentAudio: null,
         currentAudioBtn: null
@@ -1549,12 +1549,17 @@
         state.isPlaying = true;
         elements.playPause.classList.add('active');
 
-        const pixelsPerFrame = state.scrollSpeed / 10;
+        let lastTime = performance.now();
 
-        if (state.scrollInterval) clearInterval(state.scrollInterval);
+        function scrollStep(currentTime) {
+          if (!state.isPlaying) return;
 
-        state.scrollInterval = setInterval(() => {
-          elements.content.scrollTop += pixelsPerFrame;
+          const deltaTime = currentTime - lastTime;
+          const pixelsPerMs = state.scrollSpeed / 600; // Adjust for smooth speed
+          const scrollAmount = pixelsPerMs * deltaTime;
+
+          elements.content.scrollTop += scrollAmount;
+          lastTime = currentTime;
 
           const viewportCenter = elements.content.scrollTop + elements.content.clientHeight / 2;
           document.querySelectorAll('.segment').forEach((el, index) => {
@@ -1571,17 +1576,23 @@
 
           if (elements.content.scrollTop >= elements.content.scrollHeight - elements.content.clientHeight) {
             stopScrolling();
+            return;
           }
-        }, CONFIG.timing.frameInterval);
+
+          state.scrollAnimationId = requestAnimationFrame(scrollStep);
+        }
+
+        if (state.scrollAnimationId) cancelAnimationFrame(state.scrollAnimationId);
+        state.scrollAnimationId = requestAnimationFrame(scrollStep);
       }
 
       function stopScrolling() {
         state.isPlaying = false;
         elements.playPause.classList.remove('active');
 
-        if (state.scrollInterval) {
-          clearInterval(state.scrollInterval);
-          state.scrollInterval = null;
+        if (state.scrollAnimationId) {
+          cancelAnimationFrame(state.scrollAnimationId);
+          state.scrollAnimationId = null;
         }
         if (state.autoTimeout) {
           clearTimeout(state.autoTimeout);
