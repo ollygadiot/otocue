@@ -616,6 +616,13 @@
       cursor: not-allowed;
     }
 
+    /* Hide listen buttons on touch devices */
+    @media (hover: none) and (pointer: coarse) {
+      .listen-btn {
+        display: none;
+      }
+    }
+
     /* ========== NOTATION STYLES ========== */
     /* Pauses */
     .pause {
@@ -1202,6 +1209,11 @@
       <button class="btn-3d btn-3d--yellow btn-3d--circle font-btn" id="fontIncrease">A+</button>
     </div>
 
+    <div class="font-size-control">
+      <button class="btn-3d btn-3d--yellow btn-3d--circle font-btn" id="widthDecrease">↔-</button>
+      <button class="btn-3d btn-3d--yellow btn-3d--circle font-btn" id="widthIncrease">↔+</button>
+    </div>
+
     <label><input type="checkbox" id="mirrorMode"> Mirror</label>
     <label><input type="checkbox" id="iPadMode"> iPad mode</label>
     <label><input type="checkbox" id="showGestures"> Gestures</label>
@@ -1261,6 +1273,12 @@
           max: 5,
           default: 2.2,
           step: 0.2
+        },
+        columnWidth: {
+          min: 400,
+          max: 1000,
+          default: 600,
+          step: 100
         },
         speed: {
           min: 0,
@@ -1346,6 +1364,7 @@
         iPadMode: false,
         scrollSpeed: CONFIG.speed.default,
         fontSize: CONFIG.fontSize.default,
+        columnWidth: CONFIG.columnWidth.default,
         showGestures: false,
         gestureData: null,
         scrollAnimationId: null,
@@ -1799,6 +1818,13 @@
         });
       }
 
+      function updateColumnWidth(delta) {
+        state.columnWidth = Math.max(CONFIG.columnWidth.min, Math.min(CONFIG.columnWidth.max, state.columnWidth + delta));
+        document.querySelectorAll('.segment, .chapter, .script-title').forEach(el => {
+          el.style.maxWidth = `${state.columnWidth}px`;
+        });
+      }
+
       // ========== STORAGE ==========
       function generateId() {
         return Date.now().toString(36) + Math.random().toString(36).substr(2);
@@ -2040,6 +2066,10 @@
         // Font size
         document.getElementById('fontIncrease').addEventListener('click', () => updateFontSize(CONFIG.fontSize.step));
         document.getElementById('fontDecrease').addEventListener('click', () => updateFontSize(-CONFIG.fontSize.step));
+
+        // Column width
+        document.getElementById('widthIncrease').addEventListener('click', () => updateColumnWidth(CONFIG.columnWidth.step));
+        document.getElementById('widthDecrease').addEventListener('click', () => updateColumnWidth(-CONFIG.columnWidth.step));
 
         // Sidebar
         elements.sidebarToggle.addEventListener('click', toggleSidebar);
