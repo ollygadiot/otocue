@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Otocue</title>
+  <title>otocue</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23111' stroke='%2360d080' stroke-width='2'/%3E%3Cline x1='10' y1='11' x2='22' y2='11' stroke='%23555' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='10' y1='16' x2='22' y2='16' stroke='%2360d080' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='10' y1='21' x2='18' y2='21' stroke='%23555' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
   <style>
     /* ========== CSS CUSTOM PROPERTIES ========== */
@@ -112,6 +112,10 @@
       transition: transform var(--transition-fast), box-shadow var(--transition-normal);
       box-shadow: var(--shadow-glow), var(--shadow-glow-inset);
       outline: none;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     .btn-3d::before {
@@ -135,6 +139,15 @@
       transform: translateY(5px);
       background: var(--color-bg-button-active);
       box-shadow: 0 0 20px rgba(255, 255, 255, 0.25), inset 0 0 25px rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-3d:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--color-accent-glow), var(--shadow-glow), var(--shadow-glow-inset);
+    }
+
+    .btn-3d:focus:not(:focus-visible) {
+      box-shadow: var(--shadow-glow), var(--shadow-glow-inset);
     }
 
     .btn-3d:active::before {
@@ -245,16 +258,27 @@
       left: 0;
       right: 0;
       background: rgba(10, 10, 10, 0.95);
-      padding: 22px var(--spacing-lg);
+      padding: 14px var(--spacing-lg);
       display: flex;
-      gap: var(--spacing-lg);
+      gap: var(--spacing-md);
       align-items: center;
       z-index: 100;
       border-bottom: 1px solid #333;
       box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
-      flex-wrap: wrap;
       transform: translateY(-100%);
       transition: transform var(--transition-slow);
+    }
+
+    .logo-header {
+      height: 32px;
+      width: 32px;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: filter var(--transition-fast);
+    }
+
+    .logo-header:hover {
+      filter: drop-shadow(0 0 8px var(--color-accent));
     }
 
     .controls-trigger {
@@ -431,13 +455,23 @@
       min-width: 75px;
     }
 
+    .spacer {
+      flex: 1;
+    }
+
     .static-mode #playPause {
       pointer-events: none;
     }
 
     .mode-toggle {
       display: flex;
-      gap: var(--spacing-xs);
+      gap: var(--spacing-sm);
+    }
+
+    .mode-toggle .btn-3d.active {
+      background: var(--color-accent-bg);
+      border-color: var(--color-accent-border);
+      color: var(--color-accent);
     }
 
     .font-size-control {
@@ -455,6 +489,158 @@
       text-align: center;
       color: var(--color-accent);
       font-weight: bold;
+    }
+
+    /* ========== SETTINGS DROPDOWN ========== */
+    .settings-dropdown {
+      position: relative;
+    }
+
+    #settingsToggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 12px;
+    }
+
+    #settingsToggle svg {
+      flex-shrink: 0;
+    }
+
+    #settingsToggle.active {
+      background: var(--color-accent-bg);
+      border-color: var(--color-accent-border);
+      color: var(--color-accent);
+    }
+
+    .settings-panel {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      background: var(--color-bg-panel);
+      border: 1px solid var(--color-border-dim);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-md);
+      min-width: 220px;
+      display: none;
+      z-index: 150;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .settings-panel.visible {
+      display: block;
+    }
+
+    .settings-section {
+      margin-bottom: var(--spacing-md);
+    }
+
+    .settings-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .settings-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-text-faint);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .settings-row {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+
+    .settings-section label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--color-text-dim);
+      cursor: pointer;
+      padding: 6px 0;
+      transition: color var(--transition-normal);
+    }
+
+    .settings-section label:hover {
+      color: var(--color-text);
+    }
+
+    .settings-divider {
+      height: 1px;
+      background: var(--color-border-faint);
+      margin: var(--spacing-md) 0;
+    }
+
+    .settings-actions {
+      display: flex;
+      gap: var(--spacing-sm);
+      flex-wrap: wrap;
+    }
+
+    .settings-actions button {
+      flex: 1;
+      min-width: 60px;
+    }
+
+    /* ========== MOBILE RESPONSIVE ========== */
+    @media (max-width: 600px) {
+      .controls {
+        padding: 12px var(--spacing-md);
+        gap: var(--spacing-sm);
+      }
+
+      .controls button {
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+
+      .mode-toggle button {
+        padding: 8px 10px;
+      }
+
+      #playPause {
+        min-width: 60px;
+      }
+
+      #scriptsBtn {
+        display: none;
+      }
+
+      .logo-header {
+        height: 28px;
+        width: 28px;
+      }
+
+      .settings-panel {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        min-width: 200px;
+        max-width: calc(100vw - 32px);
+      }
+    }
+
+    @media (max-width: 420px) {
+      .mode-toggle {
+        gap: 2px;
+      }
+
+      .mode-toggle button {
+        padding: 8px 8px;
+        font-size: 10px;
+      }
+
+      #playPause {
+        padding: 8px 10px;
+        font-size: 11px;
+      }
     }
 
     /* ========== CONTENT AREA ========== */
@@ -1052,6 +1238,12 @@
       transform: translate3d(0, var(--btn-depth-sm), -1px);
     }
 
+    .logo-modal {
+      height: 72px;
+      width: 72px;
+      margin-bottom: 1rem;
+    }
+
     .modal-title {
       font-size: 2rem;
       font-weight: 500;
@@ -1169,6 +1361,7 @@
   <div class="modal-overlay" id="scriptsModal">
     <div class="modal-content">
       <button class="btn-3d modal-close" id="modalClose">&times;</button>
+      <img src="logo.svg" alt="Otocue" class="logo-modal">
       <h1 class="modal-title">Scripts</h1>
       <p class="modal-subtitle">Load or manage your scripts</p>
 
@@ -1189,39 +1382,70 @@
   <!-- Controls Bar -->
   <div class="controls-trigger"></div>
   <div class="controls">
+    <img src="logo.svg" alt="Otocue" class="logo-header" id="logoHeader" title="Open Scripts">
+
     <div class="mode-toggle">
       <button class="btn-3d" id="scrollMode">Scroll</button>
       <button class="btn-3d active" id="autoMode">Auto</button>
       <button class="btn-3d" id="staticMode">Static</button>
     </div>
 
-    <label>
-      Speed:
-      <input type="range" id="speedSlider" min="0" max="100" value="50">
-      <span class="speed-display" id="speedDisplay">50</span>
-    </label>
-
     <button class="btn-3d" id="playPause">Play</button>
-    <button class="btn-3d" id="reset">Reset</button>
 
-    <div class="font-size-control">
-      <button class="btn-3d btn-3d--yellow btn-3d--circle font-btn" id="fontDecrease">A-</button>
-      <button class="btn-3d btn-3d--yellow btn-3d--circle font-btn" id="fontIncrease">A+</button>
+    <div class="spacer"></div>
+
+    <!-- Settings Dropdown -->
+    <div class="settings-dropdown">
+      <button class="btn-3d" id="settingsToggle" title="Settings">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
+          <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
+        </svg>
+      </button>
+      <div class="settings-panel" id="settingsPanel">
+        <div class="settings-section">
+          <label class="settings-label">Speed</label>
+          <div class="settings-row">
+            <input type="range" id="speedSlider" min="0" max="100" value="50">
+            <span class="speed-display" id="speedDisplay">50</span>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <label class="settings-label">Text Size</label>
+          <div class="settings-row">
+            <button class="btn-3d btn-3d--yellow btn-3d--circle font-btn" id="fontDecrease">A-</button>
+            <button class="btn-3d btn-3d--yellow btn-3d--circle font-btn" id="fontIncrease">A+</button>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <label class="settings-label">Column Width</label>
+          <div class="settings-row">
+            <button class="btn-3d btn-3d--yellow btn-3d--circle font-btn" id="widthDecrease">↔-</button>
+            <button class="btn-3d btn-3d--yellow btn-3d--circle font-btn" id="widthIncrease">↔+</button>
+          </div>
+        </div>
+
+        <div class="settings-divider"></div>
+
+        <div class="settings-section">
+          <label><input type="checkbox" id="mirrorMode"> Mirror</label>
+          <label><input type="checkbox" id="iPadMode"> iPad mode</label>
+          <label><input type="checkbox" id="showGestures"> Gestures</label>
+          <label><input type="checkbox" id="showNotes"> Show notes</label>
+        </div>
+
+        <div class="settings-divider"></div>
+
+        <div class="settings-section settings-actions">
+          <button class="btn-3d btn-3d--sm" id="reset">Reset</button>
+          <button class="btn-3d btn-3d--sm" id="saveSettings">Save</button>
+          <button class="btn-3d btn-3d--sm" id="sidebarToggle">?</button>
+        </div>
+      </div>
     </div>
 
-    <div class="font-size-control">
-      <button class="btn-3d btn-3d--yellow btn-3d--circle font-btn" id="widthDecrease">↔-</button>
-      <button class="btn-3d btn-3d--yellow btn-3d--circle font-btn" id="widthIncrease">↔+</button>
-    </div>
-
-    <button class="btn-3d btn-3d--sm" id="saveSettings">Save</button>
-
-    <label><input type="checkbox" id="mirrorMode"> Mirror</label>
-    <label><input type="checkbox" id="iPadMode"> iPad mode</label>
-    <label><input type="checkbox" id="showGestures"> Gestures</label>
-    <label><input type="checkbox" id="showNotes"> Show notes</label>
-
-    <button class="btn-3d" id="sidebarToggle">?</button>
     <button class="btn-3d" id="scriptsBtn">Scripts</button>
   </div>
 
@@ -1400,6 +1624,8 @@
         elements.controls = document.querySelector('.controls');
         elements.controlsTrigger = document.querySelector('.controls-trigger');
         elements.menuToggle = document.getElementById('menuToggle');
+        elements.settingsToggle = document.getElementById('settingsToggle');
+        elements.settingsPanel = document.getElementById('settingsPanel');
       }
 
       // ========== GESTURE SYSTEM ==========
@@ -2081,6 +2307,16 @@
         elements.sidebarToggle.classList.toggle('active');
       }
 
+      function toggleSettings() {
+        elements.settingsPanel.classList.toggle('visible');
+        elements.settingsToggle.classList.toggle('active');
+      }
+
+      function closeSettings() {
+        elements.settingsPanel.classList.remove('visible');
+        elements.settingsToggle.classList.remove('active');
+      }
+
       function switchTab(tab) {
         const tabControls = document.getElementById('tabControls');
         const tabLegend = document.getElementById('tabLegend');
@@ -2154,6 +2390,21 @@
           }
         });
 
+        // Settings dropdown
+        elements.settingsToggle.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleSettings();
+        });
+
+        // Close settings on outside click
+        document.addEventListener('click', (e) => {
+          if (elements.settingsPanel.classList.contains('visible') &&
+              !elements.settingsPanel.contains(e.target) &&
+              !elements.settingsToggle.contains(e.target)) {
+            closeSettings();
+          }
+        });
+
         // Sidebar
         elements.sidebarToggle.addEventListener('click', toggleSidebar);
         document.getElementById('tabControls').addEventListener('click', () => switchTab('controls'));
@@ -2200,6 +2451,11 @@
 
         // Modal
         document.getElementById('scriptsBtn').addEventListener('click', () => {
+          stopScrolling();
+          showModal();
+        });
+
+        document.getElementById('logoHeader').addEventListener('click', () => {
           stopScrolling();
           showModal();
         });
@@ -2264,6 +2520,11 @@
           if (e.target.tagName === 'INPUT') return;
 
           switch (e.key) {
+            case 'Escape':
+              if (!elements.scriptsModal.classList.contains('hidden')) {
+                hideModal();
+              }
+              break;
             case ' ':
               e.preventDefault();
               togglePlay();
